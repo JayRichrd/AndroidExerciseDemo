@@ -1,0 +1,30 @@
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.tools.lint:lint-api:24.3.1'
+    implementation 'com.android.tools.lint:lint-checks:24.3.1'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+jar {
+    manifest {
+        attributes('Lint-Registry': 'cain.tencent.com.lintrules.MyIssueRegistry')
+    }
+}
+
+configurations {
+    lintJarOutput
+}
+
+dependencies {
+    lintJarOutput files(jar)
+}
+
+defaultTasks 'assemble'
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"

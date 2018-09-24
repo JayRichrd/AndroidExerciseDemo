@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="cain.tencent.com.androidexercisedemo.DensityUtil" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/sdv_view"
+                android:layout_width="320dp"
+                android:layout_height="214dp"
+                android:layout_gravity="center_horizontal"
+                fresco:placeholderImage="@mipmap/ic_launcher"
+                fresco:placeholderImageScaleType="centerCrop" />
+
+            <cain.tencent.com.androidexercisedemo.QGameSimpleDraweeView
+                android:id="@+id/qgsdv_view1"
+                android:layout_width="320dp"
+                android:layout_height="214dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp" />
+        </LinearLayout>
+    </ScrollView>
+
+</layout>

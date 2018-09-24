@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <declare-styleable name="QGameSimpleDraweeView">
+        <attr name="qgSdvResizeWidth" format="reference|integer" />
+        <attr name="qgSdvResizeHeight" format="reference|integer" />
+        <attr name="qgSdvImgUrl" format="string" />
+        <attr name="qgSdvImgResource" format="reference" />
+    </declare-styleable>
+</resources>
