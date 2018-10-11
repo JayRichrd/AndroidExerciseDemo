@@ -13,6 +13,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Fresco使用Demo" />
+
+        <Button
+            android:id="@+id/btn_thread"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="启动一条线程" />
+
     </LinearLayout>
 
 </layout>
