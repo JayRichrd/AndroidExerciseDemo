@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FrescoActivity"></activity>
+        <activity android:name=".FrescoActivity" />
+        <activity android:name=".BitmapActivity"></activity>
     </application>
 
 </manifest>
