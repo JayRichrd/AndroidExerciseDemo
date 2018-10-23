@@ -22,7 +22,16 @@
                 android:layout_width="320dp"
                 android:layout_height="214dp"
                 android:layout_gravity="center_horizontal"
-                fresco:placeholderImage="@mipmap/ic_launcher"
+                fresco:placeholderImage="@drawable/ic_launcher"
+                fresco:placeholderImageScaleType="centerCrop" />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/sdv_view1"
+                android:layout_width="320dp"
+                android:layout_height="214dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                fresco:placeholderImage="@drawable/ic_launcher"
                 fresco:placeholderImageScaleType="centerCrop" />
 
             <cain.tencent.com.androidexercisedemo.QGameSimpleDraweeView

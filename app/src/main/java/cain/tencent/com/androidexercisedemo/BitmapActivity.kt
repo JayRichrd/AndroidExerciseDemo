@@ -30,7 +30,7 @@ class BitmapActivity : AppCompatActivity(), View.OnClickListener {
         // 缩放以后再加载
         binding.ivBitmap.post { binding.ivBitmap.setImageBitmap(createBitmap(binding.ivBitmap.measuredWidth, binding.ivBitmap.measuredHeight)) }
         // 直接加载
-        binding.ivBitmap1.setImageBitmap(BitmapFactory.decodeResource(resources, R.mipmap.sm))
+        binding.ivBitmap1.setImageBitmap(BitmapFactory.decodeResource(resources, R.drawable.sm))
         binding.btnGetSize.setOnClickListener(this)
     }
 
@@ -38,11 +38,11 @@ class BitmapActivity : AppCompatActivity(), View.OnClickListener {
         val option = BitmapFactory.Options()
         // 仅仅解析尺寸信息
         option.inJustDecodeBounds = true
-        BitmapFactory.decodeResource(resources, R.mipmap.sm, option)
+        BitmapFactory.decodeResource(resources, R.drawable.sm, option)
         Log.i(TAG, "reqWidth: $reqWidth, reqHeght: $reqHeight")
         option.inSampleSize = calculateInSimpleSize(reqWidth, reqHeight, option)
         option.inJustDecodeBounds = false
-        return BitmapFactory.decodeResource(resources, R.mipmap.sm, option)
+        return BitmapFactory.decodeResource(resources, R.drawable.sm, option)
     }
 
     private fun calculateInSimpleSize(reqWidth: Int, reqHeight: Int, options: BitmapFactory.Options): Int {

@@ -65,6 +65,7 @@ class FrescoActivity : AppCompatActivity() {
         val imageRequestBulder: ImageRequestBuilder = ImageRequestBuilder.newBuilderWithSource(Uri.parse(imgUrlStr)).setResizeOptions(ResizeOptions(640, 428)).setImageDecodeOptions(decodeOptionsBuilder.build())
         val controller = Fresco.newDraweeControllerBuilder().setImageRequest(imageRequestBulder.build()).setOldController(binding.sdvView.controller).setAutoPlayAnimations(true).setControllerListener(controllerListener).build()
         binding.sdvView.controller = controller
+        binding.sdvView1.setImageURI(imgUrlStr)
 
         binding.qgsdvView1.setImageURI(imgUrlStr,null)
     }
