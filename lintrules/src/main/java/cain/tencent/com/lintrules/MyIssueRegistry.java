@@ -14,6 +14,6 @@ public class MyIssueRegistry extends IssueRegistry {
     @Override
     public List<Issue> getIssues() {
         System.out.println("MyIssueRegistry lint rules works.");
-        return Arrays.asList(LoggerUsageDetector.ISSUE, QGameSimpleDraweeViewUsageDetector.ISSUE);
+        return Arrays.asList(LoggerUsageDetector.ISSUE, QGameSimpleDraweeViewUsageDetector.ISSUE, SimpleDraweeViewUsageDetector.ISSUE);
     }
 }

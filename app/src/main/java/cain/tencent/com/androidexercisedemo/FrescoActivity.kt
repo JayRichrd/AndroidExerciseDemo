@@ -19,6 +19,9 @@ import com.facebook.imagepipeline.request.ImageRequestBuilder
 
 
 class FrescoActivity : AppCompatActivity() {
+    companion object {
+        const val TAG = "FrescoActivity"
+    }
     lateinit var binding: ActivityFrescoBinding
     var imgUrlStr: String = "https://www.gstatic.com/webp/gallery/1.sm.jpg"
 
@@ -50,11 +53,11 @@ class FrescoActivity : AppCompatActivity() {
                 }
                 val height = imageInfo?.getHeight()
                 val width = imageInfo?.getWidth()
-                Log.d("Jay", "width: $width, height: $height")
+                Log.d(TAG, "width: $width, height: $height")
             }
 
             override fun onIntermediateImageSet(id: String?, @Nullable imageInfo: ImageInfo?) {
-                Log.d("TAG", "Intermediate image received")
+                Log.d(TAG, "Intermediate image received")
             }
 
             override fun onFailure(id: String?, throwable: Throwable) {

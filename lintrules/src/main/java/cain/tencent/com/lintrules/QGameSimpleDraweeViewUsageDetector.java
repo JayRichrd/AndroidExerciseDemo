@@ -66,13 +66,6 @@ public class QGameSimpleDraweeViewUsageDetector extends ResourceXmlDetector {
         return ResourceFolderType.LAYOUT == folderType;
     }
 
-//    @Override
-//    public Collection<String> getApplicableAttributes() {
-//        return Collections.singletonList(VALUE_ID);
-//        return null;
-//        return Arrays.asList(VALUE_ID, "qgSdvResizeWidth", "qgSdvResizeHeight");
-//    }
-
     @Override
     public Collection<String> getApplicableElements() {
         return Collections.singletonList(TAG_NAME);
@@ -122,17 +115,18 @@ public class QGameSimpleDraweeViewUsageDetector extends ResourceXmlDetector {
     @Override
     public void visitElementAfter(XmlContext context, Element element) {
         super.visitElementAfter(context, element);
-        Log.i(TAG, "visit element " + element.getTagName() + " finish.");
+        System.out.println("visit element " + element.getTagName() + " finish.");
     }
 
     @Override
     public void visitElement(XmlContext context, Element element) {
         super.visitElement(context, element);
-        Log.i(TAG, "visit element " + element.getTagName());
-        if ((!element.hasAttribute("qgSdvResizeHeight") || !element.hasAttribute("qgSdvResizeHeight")) && element.getTagName().equals(TAG_NAME)) {
+        System.out.println("visit element " + element.getTagName());
+        System.out.println("element name 是否是目标的："+ element.getTagName().equals(TAG_NAME));
+        if ((!element.hasAttributeNS("http://schemas.android.com/apk/res-auto","qgSdvResizeHeight") || !element.hasAttributeNS("http://schemas.android.com/apk/res-auto","qgSdvResizeWidth")) && element.getTagName().equals(TAG_NAME)) {
             context.report(ISSUE,
                     element,
-                    context.getLocation(reportAttr),
+                    context.getLocation(element),
                     reportStrFormat);
         }
     }

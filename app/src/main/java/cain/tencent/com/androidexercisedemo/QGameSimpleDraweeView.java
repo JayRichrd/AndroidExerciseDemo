@@ -23,6 +23,7 @@ import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
+
 /**
  * @author cainjiang
  * @date 2018/9/10
@@ -90,10 +91,10 @@ public class QGameSimpleDraweeView extends GenericDraweeView {
                 TypedArray gdhAttrs = context.obtainStyledAttributes(attrs, R.styleable.QGameSimpleDraweeView);
                 try {
                     if (gdhAttrs.hasValue(R.styleable.QGameSimpleDraweeView_qgSdvResizeWidth)) {
-                        mResizeWidth = gdhAttrs.getInt(R.styleable.QGameSimpleDraweeView_qgSdvResizeWidth, 0);
+                        mResizeWidth = (int) gdhAttrs.getDimension(R.styleable.QGameSimpleDraweeView_qgSdvResizeWidth, 0);
                     }
                     if (gdhAttrs.hasValue(R.styleable.QGameSimpleDraweeView_qgSdvResizeHeight)) {
-                        mResizeHeight = gdhAttrs.getInt(R.styleable.QGameSimpleDraweeView_qgSdvResizeHeight, 0);
+                        mResizeHeight = (int) gdhAttrs.getDimension(R.styleable.QGameSimpleDraweeView_qgSdvResizeHeight, 0);
                     }
 
                     if (gdhAttrs.hasValue(R.styleable.QGameSimpleDraweeView_qgSdvImgUrl)) {
@@ -152,7 +153,7 @@ public class QGameSimpleDraweeView extends GenericDraweeView {
      * @param callerContext caller context
      */
     private void setImageURI(Uri uri, @Nullable Object callerContext) {
-        DraweeController controller;
+        DraweeController controller = null;
         if (mResizeWidth > 0 && mResizeHeight > 0) {
             Log.i(TAG, "resizeWidth: " + mResizeWidth + ", resizeHeight: " + mResizeHeight);
             ImageRequest imageRequest = ImageRequestBuilder.newBuilderWithSource(uri).
@@ -165,13 +166,10 @@ public class QGameSimpleDraweeView extends GenericDraweeView {
                     build();
         } else {
             Log.e(TAG, "You haven't set resizeWidth and resizeHeight!");
-//            if (AppSetting.isDebugVersion) {
-//                QQToast.makeText(getContext(), "图片未设置resize参数", Toast.LENGTH_LONG).show();
-//            }
-            controller = mSimpleDraweeControllerBuilder.setCallerContext(callerContext).
-                    setUri(uri).
-                    setOldController(getController()).
-                    build();
+//            controller = mSimpleDraweeControllerBuilder.setCallerContext(callerContext).
+//                    setUri(uri).
+//                    setOldController(getController()).
+//                    build();
         }
         setController(controller);
     }

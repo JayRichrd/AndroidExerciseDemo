@@ -1,2 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cain.tencent.com.lintrulsaar" />
+<manifest package="cain.tencent.com.lintrulsaar" />
