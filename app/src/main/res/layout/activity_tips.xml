@@ -9,29 +9,22 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/btn_fresco"
+            android:id="@+id/btn_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Fresco使用Demo" />
+            android:text="Dialog使用Demo" />
 
         <Button
-            android:id="@+id/btn_thread"
+            android:id="@+id/btn_toast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="启动一条线程" />
+            android:text="Toast" />
 
         <Button
-            android:id="@+id/btn_bitmap"
+            android:id="@+id/btn_snackbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="BitMap使用Demo" />
-
-        <Button
-            android:id="@+id/btn_tips"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="弹框提示使用Demo" />
-
+            android:text="snackbar使用Demo" />
 
     </LinearLayout>
 

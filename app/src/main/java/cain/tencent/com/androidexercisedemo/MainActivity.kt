@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnFresco.setOnClickListener(this)
         binding.btnThread.setOnClickListener(this)
         binding.btnBitmap.setOnClickListener(this)
+        binding.btnTips.setOnClickListener(this)
     }
 
     override fun onClick(view: View?) {
@@ -39,6 +40,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.btn_bitmap -> {
                 startActivity(Intent(this, BitmapActivity::class.java))
+            }
+            R.id.btn_tips -> {
+                startActivity(Intent(this, TipsActivity::class.java))
             }
             else -> {
 

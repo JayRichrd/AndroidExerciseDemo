@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".FrescoActivity" />
-        <activity android:name=".BitmapActivity"></activity>
+        <activity android:name=".BitmapActivity" />
+        <activity android:name=".TipsActivity"></activity>
     </application>
 
 </manifest>
