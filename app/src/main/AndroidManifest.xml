@@ -20,7 +20,8 @@
         </activity>
         <activity android:name=".FrescoActivity" />
         <activity android:name=".BitmapActivity" />
-        <activity android:name=".TipsActivity"></activity>
+        <activity android:name=".TipsActivity" />
+        <activity android:name=".RxJavaActivity"></activity>
     </application>
 
 </manifest>

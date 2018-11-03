@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnThread.setOnClickListener(this)
         binding.btnBitmap.setOnClickListener(this)
         binding.btnTips.setOnClickListener(this)
+        binding.btnRxjava.setOnClickListener(this)
     }
 
     override fun onClick(view: View?) {
@@ -43,6 +44,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.btn_tips -> {
                 startActivity(Intent(this, TipsActivity::class.java))
+            }
+            R.id.btn_rxjava -> {
+                startActivity(Intent(this, RxJavaActivity::class.java))
             }
             else -> {
 

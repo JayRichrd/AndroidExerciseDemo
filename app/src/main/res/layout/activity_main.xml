@@ -32,6 +32,12 @@
             android:layout_height="wrap_content"
             android:text="弹框提示使用Demo" />
 
+        <Button
+            android:id="@+id/btn_rxjava"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RxJava使用Demo" />
+
 
     </LinearLayout>
 
