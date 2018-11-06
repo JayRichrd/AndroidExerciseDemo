@@ -116,33 +116,41 @@ public class QGameSimpleDraweeView extends GenericDraweeView {
 
     /**
      * 在xml中使用datading时需要设置自定义属性的setter方法
+     *
      * @param resizeWidth
      */
     public void setQgSdvResizeWidth(int resizeWidth) {
         if (resizeWidth > 0) {
             mResizeWidth = resizeWidth;
-            setImage();
+            setImage(null);
         }
     }
 
     public void setQgSdvResizeHeight(int resizeHeight) {
         if (resizeHeight > 0) {
             mResizeHeight = resizeHeight;
-            setImage();
+            setImage(null);
         }
     }
 
     public void setQgSdvImgUrl(String imageUrl) {
         if (!TextUtils.isEmpty(imageUrl)) {
             mImageUrl = imageUrl;
-            setImage();
+            setQgSdvImgUrl(imageUrl, null);
+        }
+    }
+
+    public void setQgSdvImgUrl(String imageUrl, @Nullable Object callerContext) {
+        if (!TextUtils.isEmpty(imageUrl)) {
+            mImageUrl = imageUrl;
+            setImage(callerContext);
         }
     }
 
     public void setQgSdvImgResource(int resId) {
         if (resId != NO_ID) {
             mResId = resId;
-            setImage();
+            setImage(null);
         }
     }
 
@@ -160,6 +168,7 @@ public class QGameSimpleDraweeView extends GenericDraweeView {
                     setResizeOptions(new ResizeOptions(mResizeWidth, mResizeHeight)).
                     build();
             controller = Fresco.newDraweeControllerBuilder().
+                    setCallerContext(callerContext).
                     setImageRequest(imageRequest).
                     setOldController(getController()).
                     setAutoPlayAnimations(true).
@@ -174,11 +183,11 @@ public class QGameSimpleDraweeView extends GenericDraweeView {
         setController(controller);
     }
 
-    private void setImage() {
+    private void setImage(@Nullable Object callerContext) {
         if (!TextUtils.isEmpty(mImageUrl)) {
-            setImageURI(mImageUrl, null);
+            setImageURI(mImageUrl, callerContext);
         } else if (mResId != NO_ID) {
-            setActualImageResource(mResId, null);
+            setActualImageResource(mResId, callerContext);
         }
     }
 
@@ -188,7 +197,7 @@ public class QGameSimpleDraweeView extends GenericDraweeView {
      * @param uriString
      * @param callerContext
      */
-    public void setImageURI(@Nullable String uriString, @Nullable Object callerContext) {
+    private void setImageURI(@Nullable String uriString, @Nullable Object callerContext) {
         Uri uri = uriString != null ? Uri.parse(uriString) : null;
         setImageURI(uri, callerContext);
     }
@@ -217,10 +226,11 @@ public class QGameSimpleDraweeView extends GenericDraweeView {
 
     /**
      * 设置资源ID
+     *
      * @param resId
      * @return
      */
-    public GenericDraweeView setResId(int resId){
+    public GenericDraweeView setResId(int resId) {
         mResId = resId;
         return this;
     }

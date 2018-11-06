@@ -71,6 +71,6 @@ class FrescoActivity : AppCompatActivity() {
         binding.sdvView.controller = controller
         binding.sdvView1.setImageURI(imgUrlStr)
 
-        binding.qgsdvView1.setImageURI(imgUrlStr,null)
+        binding.qgsdvView1.setQgSdvImgUrl(imgUrlStr,null)
     }
 }
