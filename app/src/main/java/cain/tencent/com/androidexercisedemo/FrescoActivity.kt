@@ -23,7 +23,8 @@ class FrescoActivity : AppCompatActivity() {
         const val TAG = "FrescoActivity"
     }
     lateinit var binding: ActivityFrescoBinding
-    var imgUrlStr: String = "https://www.gstatic.com/webp/gallery/1.sm.jpg"
+//    var imgUrlStr: String = "https://www.gstatic.com/webp/gallery/1.sm.jpg"
+    var imgUrlStr: String = "http://imgcache.gtimg.cn/ACT/svip_act/act_img/public/201811/m1541474041_sctc.png"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

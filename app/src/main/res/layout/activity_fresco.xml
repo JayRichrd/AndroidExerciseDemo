@@ -40,6 +40,7 @@
                 android:layout_width="320dp"
                 android:layout_height="214dp"
                 android:layout_gravity="center_horizontal"
+                app:placeholderImage="@drawable/ic_launcher_round"
                 android:layout_marginTop="10dp"
                 app:qgSdvResizeHeight="320dp"
                 app:qgSdvResizeWidth="320dp"
