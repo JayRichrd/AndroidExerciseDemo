@@ -21,7 +21,9 @@
         <activity android:name=".FrescoActivity" />
         <activity android:name=".BitmapActivity" />
         <activity android:name=".TipsActivity" />
-        <activity android:name=".RxJavaActivity"></activity>
+        <activity android:name=".RxJavaActivity" />
+        <activity android:name=".Empty1Activity" />
+        <activity android:name=".Empty2Activity"></activity>
     </application>
 
 </manifest>

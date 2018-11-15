@@ -21,15 +21,16 @@
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/sdv_view"
-                android:layout_width="320dp"
-                android:layout_height="214dp"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
                 android:layout_gravity="center_horizontal"
+                fresco:actualImageScaleType="fitXY"
                 fresco:placeholderImageScaleType="centerCrop" />
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/sdv_view1"
-                android:layout_width="320dp"
-                android:layout_height="214dp"
+                android:layout_width="375dp"
+                android:layout_height="375dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 fresco:placeholderImageScaleType="centerCrop"
@@ -37,15 +38,17 @@
 
             <!--app:qgSdvResizeHeight="320dp"-->
             <!--app:qgSdvResizeWidth="320dp"-->
+                <!--app:qgSdvResizeWidth="@{DensityUtil.dp2pxInt(context,100f)}"-->
             <cain.tencent.com.androidexercisedemo.QGameSimpleDraweeView
                 android:id="@+id/qgsdv_view1"
-                android:layout_width="320dp"
-                android:layout_height="214dp"
+                android:layout_width="375dp"
+                android:layout_height="375dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 app:placeholderImage="@drawable/ic_launcher_round"
-                app:qgSdvResizeHeight="@{DensityUtil.dp2pxInt(context,70f)}"
-                app:qgSdvResizeWidth="@{DensityUtil.dp2pxInt(context,100f)}"
+                app:qgSdvResizeHeight="375dp"
+                app:qgSdvResizeWidth="375dp"
+                fresco:actualImageScaleType="fitXY"
                 tools:ignore="QGameSimpleDraweeViewUsage" />
         </LinearLayout>
     </ScrollView>

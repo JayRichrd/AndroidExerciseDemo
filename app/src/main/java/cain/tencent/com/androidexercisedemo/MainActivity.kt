@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnRxjava.setOnClickListener(this)
         binding.btnGc.setOnClickListener(this)
         binding.btnGetSysInform.setOnClickListener(this)
+        binding.btnNewActivity.setOnClickListener(this)
     }
 
     override fun onClick(view: View?) {
@@ -64,6 +65,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 val buildVersion = Build.VERSION.SDK_INT
                 Log.d(TAG,"机型: ${sysInfo}, sdk版本：${sdkVersion}, 系统版本：${sysVersion}, buildVersion:${buildVersion}")
             }
+            R.id.btn_new_activity -> {
+                startActivity(Intent(this, Empty1Activity::class.java))
+            }
             else -> {
 
             }
@@ -78,5 +82,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         })
         thread.name = "jay-thread"
         thread.start()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i(TAG,"onDestroy")
     }
 }

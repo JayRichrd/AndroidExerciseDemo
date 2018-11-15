@@ -13,7 +13,6 @@ public class DensityUtil {
 
     public static float dp2px(Context context, float dp) {
         float scale = context.getResources().getDisplayMetrics().density;
-        Log.i("Jay","ceshi");
         return dp * scale + 0.5F;
     }
 

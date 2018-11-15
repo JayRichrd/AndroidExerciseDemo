@@ -43,11 +43,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="gc crash测试" />
+
         <Button
             android:id="@+id/btn_get_sys_inform"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="获取手机系统信息测试" />
+
+        <Button
+            android:id="@+id/btn_new_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="打开一个新的界面" />
 
 
     </LinearLayout>

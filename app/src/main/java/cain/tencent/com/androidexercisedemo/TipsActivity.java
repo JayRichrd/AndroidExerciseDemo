@@ -7,8 +7,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 
 import cain.tencent.com.androidexercisedemo.databinding.ActivityTipsBinding;
 
@@ -56,19 +58,28 @@ public class TipsActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Title").setMessage("Dialog content").setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.d(TAG, "Press ok option.");
-            }
-        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.d(TAG, "Press cancel option");
-            }
-        });
-        builder.show();
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle("Title").setMessage("Dialog content").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                Log.d(TAG, "Press ok option.");
+//            }
+//        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                Log.d(TAG, "Press cancel option");
+//            }
+//        });
+//        builder.show();
+
+        FirstRechargeDialog firstRechargeDialog = new FirstRechargeDialog(this,1,0,"");
+        firstRechargeDialog.show();
+        WindowManager windowManager = getWindowManager();
+        Display defaultDisplay = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams attributes = firstRechargeDialog.getWindow().getAttributes();
+        attributes.width = defaultDisplay.getWidth();
+        firstRechargeDialog.getWindow().setAttributes(attributes);
+
     }
 
 

@@ -15,6 +15,7 @@ import com.facebook.imagepipeline.common.ImageDecodeOptions
 import com.facebook.imagepipeline.common.ImageDecodeOptionsBuilder
 import com.facebook.imagepipeline.common.ResizeOptions
 import com.facebook.imagepipeline.image.ImageInfo
+import com.facebook.imagepipeline.postprocessors.RoundAsCirclePostprocessor
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 
 
@@ -66,11 +67,16 @@ class FrescoActivity : AppCompatActivity() {
             }
         }
         val decodeOptionsBuilder: ImageDecodeOptionsBuilder = ImageDecodeOptions.newBuilder().setDecodePreviewFrame(true)
-        val imageRequestBulder: ImageRequestBuilder = ImageRequestBuilder.newBuilderWithSource(Uri.parse(imgUrlStr)).setResizeOptions(ResizeOptions(640, 428)).setImageDecodeOptions(decodeOptionsBuilder.build())
+        val imageRequestBulder: ImageRequestBuilder = ImageRequestBuilder.newBuilderWithSource(Uri.parse(imgUrlStr)).setResizeOptions(ResizeOptions(640, 428)).setImageDecodeOptions(decodeOptionsBuilder.build()).setPostprocessor(RoundAsCircleAndOverlayPostProcessor())
         val controller = Fresco.newDraweeControllerBuilder().setImageRequest(imageRequestBulder.build()).setOldController(binding.sdvView.controller).setAutoPlayAnimations(true).setControllerListener(controllerListener).build()
         binding.sdvView.controller = controller
         binding.sdvView1.setImageURI(imgUrlStr)
 
         binding.qgsdvView1.setQgSdvImgUrl(imgUrlStr,null)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i(TAG,"onDestroy")
     }
 }
