@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_start_animator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="旋转动画" />
+
+        <Button
+            android:id="@+id/btn_start_animator1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="透明度动画" />
+
+        <Button
+            android:id="@+id/btn_start_animator2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="平移动画动画" />
+
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/tv_animator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:lineSpacingExtra="10dp"
+            android:textColor="@android:color/background_dark"
+            android:text="动画" />
+    </LinearLayout>
+
+</layout>

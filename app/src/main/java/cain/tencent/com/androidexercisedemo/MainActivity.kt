@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnGc.setOnClickListener(this)
         binding.btnGetSysInform.setOnClickListener(this)
         binding.btnNewActivity.setOnClickListener(this)
+        binding.btnAnimatorDemo.setOnClickListener(this)
     }
 
     override fun onClick(view: View?) {
@@ -63,10 +64,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 val sdkVersion = android.os.Build.VERSION.SDK
                 val sysVersion = android.os.Build.VERSION.RELEASE
                 val buildVersion = Build.VERSION.SDK_INT
-                Log.d(TAG,"机型: ${sysInfo}, sdk版本：${sdkVersion}, 系统版本：${sysVersion}, buildVersion:${buildVersion}")
+                Log.d(TAG, "机型: ${sysInfo}, sdk版本：${sdkVersion}, 系统版本：${sysVersion}, buildVersion:${buildVersion}")
             }
             R.id.btn_new_activity -> {
                 startActivity(Intent(this, Empty1Activity::class.java))
+            }
+            R.id.btn_animator_demo -> {
+                startActivity(Intent(this, AnimatorActivity::class.java))
             }
             else -> {
 
@@ -86,6 +90,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.i(TAG,"onDestroy")
+        Log.i(TAG, "onDestroy")
     }
 }

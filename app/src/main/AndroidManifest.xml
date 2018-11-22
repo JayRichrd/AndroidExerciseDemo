@@ -23,7 +23,8 @@
         <activity android:name=".TipsActivity" />
         <activity android:name=".RxJavaActivity" />
         <activity android:name=".Empty1Activity" />
-        <activity android:name=".Empty2Activity"></activity>
+        <activity android:name=".Empty2Activity" />
+        <activity android:name=".AnimatorActivity"></activity>
     </application>
 
 </manifest>

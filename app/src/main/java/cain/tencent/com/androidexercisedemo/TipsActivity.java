@@ -1,5 +1,6 @@
 package cain.tencent.com.androidexercisedemo;
 
+import android.animation.ValueAnimator;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.support.design.widget.Snackbar;
