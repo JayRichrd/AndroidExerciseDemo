@@ -21,7 +21,7 @@ class RoundAsCircleAndOverlayPostProcessor: RoundAsCirclePostprocessor(){
         paint.setColor(Color.RED)
         paint.setStyle(Paint.Style.STROKE);//不填充
         paint.setStrokeWidth(1F) //线的宽度
-        paint.isAntiAlias = true
+        paint.isAntiAlias = true // 消除锯齿
         // 画矩形
 //        canvas.drawRect(10F, 20F, 100F, 100F, paint)
         // 画圆

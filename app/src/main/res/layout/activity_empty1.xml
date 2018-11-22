@@ -13,6 +13,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="打开一个新的界面" />
+
+        <TextView
+            android:text="换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行"
+            android:id="@+id/tv_demo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="10dp"
+            android:layout_marginTop="10dp" />
     </LinearLayout>
 
 </layout>

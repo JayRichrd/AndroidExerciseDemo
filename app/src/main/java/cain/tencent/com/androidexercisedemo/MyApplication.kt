@@ -10,7 +10,7 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         val builder = DraweeConfig.newBuilder()
-//        builder.setDrawDebugOverlay(true)
+        builder.setDrawDebugOverlay(true)
         val draweeConfig = builder.build()
         builder.setPipelineDraweeControllerFactory(PipelineDraweeControllerFactory())
         Fresco.initialize(this, null, draweeConfig)

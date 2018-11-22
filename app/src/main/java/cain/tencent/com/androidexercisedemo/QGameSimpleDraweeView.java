@@ -3,6 +3,8 @@ package cain.tencent.com.androidexercisedemo;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.PointF;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
@@ -50,6 +52,8 @@ public class QGameSimpleDraweeView extends GenericDraweeView {
      */
     private int mResId = NO_ID;
 
+    private Drawable mImageOverlay;
+
     public static void initialize(Supplier<? extends SimpleDraweeControllerBuilder> draweeControllerBuilderSupplier) {
         sDraweeControllerBuilderSupplier = draweeControllerBuilderSupplier;
     }
@@ -95,6 +99,9 @@ public class QGameSimpleDraweeView extends GenericDraweeView {
                     }
                     if (gdhAttrs.hasValue(R.styleable.QGameSimpleDraweeView_qgSdvResizeHeight)) {
                         mResizeHeight = (int) gdhAttrs.getDimension(R.styleable.QGameSimpleDraweeView_qgSdvResizeHeight, 0);
+                    }
+                    if (gdhAttrs.hasValue(R.styleable.QGameSimpleDraweeView_qgSdvImageOverlay)) {
+                        mImageOverlay = gdhAttrs.getDrawable(R.styleable.QGameSimpleDraweeView_qgSdvImageOverlay);
                     }
 
                     if (gdhAttrs.hasValue(R.styleable.QGameSimpleDraweeView_qgSdvImgUrl)) {
@@ -154,6 +161,13 @@ public class QGameSimpleDraweeView extends GenericDraweeView {
         }
     }
 
+    public void setQgSdvImageOverlay(Drawable drawable ){
+        if (drawable != null){
+            mImageOverlay = drawable;
+            setImage(null);
+        }
+    }
+
     /**
      * Displays an image given by the uri.
      *
@@ -164,6 +178,11 @@ public class QGameSimpleDraweeView extends GenericDraweeView {
         DraweeController controller = null;
         if (mResizeWidth > 0 && mResizeHeight > 0) {
             Log.i(TAG, "resizeWidth: " + mResizeWidth + ", resizeHeight: " + mResizeHeight);
+            GenericDraweeHierarchy hierarchy = getHierarchy();
+            hierarchy.setActualImageFocusPoint(new PointF(0.5f, 0.5f));
+            if (mImageOverlay != null) {
+                hierarchy.setOverlayImage(mImageOverlay);
+            }
             ImageRequest imageRequest = ImageRequestBuilder.newBuilderWithSource(uri).
                     setResizeOptions(new ResizeOptions(mResizeWidth, mResizeHeight)).
                     build();
@@ -175,10 +194,10 @@ public class QGameSimpleDraweeView extends GenericDraweeView {
                     build();
         } else {
             Log.e(TAG, "You haven't set resizeWidth and resizeHeight!");
-//            controller = mSimpleDraweeControllerBuilder.setCallerContext(callerContext).
-//                    setUri(uri).
-//                    setOldController(getController()).
-//                    build();
+            controller = mSimpleDraweeControllerBuilder.setCallerContext(callerContext).
+                    setUri(uri).
+                    setOldController(getController()).
+                    build();
         }
         setController(controller);
     }

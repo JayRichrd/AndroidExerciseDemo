@@ -1,6 +1,8 @@
 package cain.tencent.com.androidexercisedemo
 
 import android.databinding.DataBindingUtil
+import android.databinding.Observable
+import android.databinding.ObservableField
 import android.graphics.drawable.Animatable
 import android.net.Uri
 import android.os.Bundle
@@ -8,6 +10,7 @@ import android.support.annotation.Nullable
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import cain.tencent.com.androidexercisedemo.databinding.ActivityFrescoBinding
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.controller.BaseControllerListener
@@ -26,10 +29,12 @@ class FrescoActivity : AppCompatActivity() {
     lateinit var binding: ActivityFrescoBinding
 //    var imgUrlStr: String = "https://www.gstatic.com/webp/gallery/1.sm.jpg"
     var imgUrlStr: String = "http://imgcache.gtimg.cn/ACT/svip_act/act_img/public/201811/m1541474041_sctc.png"
+    val test = ObservableField<Boolean>(true)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_fresco, null, false)
+        binding.setVariable(BR.frescoActivity,this)
         setContentView(binding.root)
         loadImg()
     }
