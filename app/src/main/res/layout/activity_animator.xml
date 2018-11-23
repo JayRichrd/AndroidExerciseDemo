@@ -26,15 +26,25 @@
             android:layout_height="wrap_content"
             android:text="平移动画动画" />
 
+        <Button
+            android:id="@+id/btn_start_animator3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="组合动画" />
+
         <TextView
-            android:layout_gravity="center_horizontal"
             android:id="@+id/tv_animator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:lineSpacingExtra="10dp"
-            android:textColor="@android:color/background_dark"
-            android:text="动画" />
+            android:text="动画"
+            android:textColor="@android:color/background_dark" />
+
+        <cain.tencent.com.androidexercisedemo.EvaluatorView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
 
 </layout>
