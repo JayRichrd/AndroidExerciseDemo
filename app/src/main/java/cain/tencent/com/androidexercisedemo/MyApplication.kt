@@ -12,6 +12,7 @@ class MyApplication : Application() {
         val builder = DraweeConfig.newBuilder()
         builder.setDrawDebugOverlay(true)
         val draweeConfig = builder.build()
+
         builder.setPipelineDraweeControllerFactory(PipelineDraweeControllerFactory())
         Fresco.initialize(this, null, draweeConfig)
         QGameSimpleDraweeView.initialize(PipelineDraweeControllerBuilderSupplier(this, draweeConfig))

@@ -11,6 +11,8 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.BounceInterpolator;
 
 /**
  * @author cainjiang
@@ -19,8 +21,8 @@ import android.view.View;
 public class EvaluatorView extends View {
     public static final String TAG = "EvaluatorView";
     public static final float RADIUS = 50F;
-    public static final String START_COLOR = "#000000";
-    public static final String END_COLOR = "#FFFFFF";
+    public static final String START_COLOR = "#FF0000";
+    public static final String END_COLOR = "#00FFFF";
     Point currentPoint;
     Paint paint;
     private String color;
@@ -59,8 +61,8 @@ public class EvaluatorView extends View {
     }
 
     private void startAnimation() {
-        Point startPoint = new Point(RADIUS, RADIUS);
-        Point endPoint = new Point(getWidth() - RADIUS, getHeight() - RADIUS);
+        Point startPoint = new Point(getWidth() /2, RADIUS);
+        Point endPoint = new Point(getWidth()/2, getHeight() - RADIUS);
         ValueAnimator valueAnimator = ValueAnimator.ofObject(new PointEvaluator(), startPoint, endPoint);
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -69,6 +71,8 @@ public class EvaluatorView extends View {
                 invalidate();
             }
         });
+//        valueAnimator.setInterpolator(new AccelerateInterpolator(2F));
+        valueAnimator.setInterpolator(new BounceInterpolator());
 
         ObjectAnimator colorAnimator = ObjectAnimator.ofObject(this, "color", new ColorEvaluator(), START_COLOR, END_COLOR);
 

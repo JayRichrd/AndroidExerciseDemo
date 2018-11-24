@@ -32,6 +32,12 @@
             android:layout_height="wrap_content"
             android:text="组合动画" />
 
+        <Button
+            android:id="@+id/btn_start_animator4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="动画" />
+
         <TextView
             android:id="@+id/tv_animator"
             android:layout_width="wrap_content"

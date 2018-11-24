@@ -30,6 +30,7 @@ public class AnimatorActivity extends AppCompatActivity implements View.OnClickL
         binding.btnStartAnimator1.setOnClickListener(this);
         binding.btnStartAnimator2.setOnClickListener(this);
         binding.btnStartAnimator3.setOnClickListener(this);
+        binding.btnStartAnimator4.setOnClickListener(this);
     }
 
     @Override
@@ -47,7 +48,15 @@ public class AnimatorActivity extends AppCompatActivity implements View.OnClickL
             case R.id.btn_start_animator3:
                 mergeAnimator();
                 break;
+            case R.id.btn_start_animator4:
+                viewPropertyAnimator();
+                break;
         }
+    }
+
+    private void viewPropertyAnimator() {
+        binding.tvAnimator.animate().translationX(-binding.tvAnimator.getLeft()).rotation(180f)
+                .setDuration(3*1000);
     }
 
     private void mergeAnimator() {
