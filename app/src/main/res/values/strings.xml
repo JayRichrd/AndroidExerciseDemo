@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AndroidExerciseDemo</string>
+    <string name="edit_something_here">主要输入框</string>
 </resources>

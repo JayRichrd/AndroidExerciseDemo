@@ -36,8 +36,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnGetSysInform.setOnClickListener(this)
         binding.btnNewActivity.setOnClickListener(this)
         binding.btnAnimatorDemo.setOnClickListener(this)
+        binding.btnOptimizeLayoutDemo.setOnClickListener(this)
     }
 
+    @SuppressLint("HardcodedStringDetector")
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.btn_fresco -> {
@@ -71,6 +73,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.btn_animator_demo -> {
                 startActivity(Intent(this, AnimatorActivity::class.java))
+            }
+            R.id.btn_optimize_layout_demo -> {
+                startActivity(Intent(this, OptimizeLayoutActivity::class.java))
             }
             else -> {
 
