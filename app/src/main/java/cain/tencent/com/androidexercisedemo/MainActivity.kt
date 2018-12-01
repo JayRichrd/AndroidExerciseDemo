@@ -1,6 +1,7 @@
 package cain.tencent.com.androidexercisedemo
 
 import android.annotation.SuppressLint
+import android.content.ComponentCallbacks2
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Build
@@ -17,6 +18,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     companion object {
         const val TAG = "MainActivity"
+    }
+
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+        when(level){
+            ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN ->{
+                Log.d(TAG,"leave the app.")
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
