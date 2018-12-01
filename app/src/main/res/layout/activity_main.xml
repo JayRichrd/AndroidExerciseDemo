@@ -68,6 +68,12 @@
             android:layout_height="wrap_content"
             android:text="布局优化使用demo" />
 
+        <Button
+            android:id="@+id/btn_cache"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="缓存demo" />
+
 
     </LinearLayout>
 

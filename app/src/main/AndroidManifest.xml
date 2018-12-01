@@ -3,6 +3,8 @@
     package="cain.tencent.com.androidexercisedemo">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MyApplication"
@@ -25,7 +27,8 @@
         <activity android:name=".Empty1Activity" />
         <activity android:name=".Empty2Activity" />
         <activity android:name=".AnimatorActivity" />
-        <activity android:name=".OptimizeLayoutActivity"></activity>
+        <activity android:name=".OptimizeLayoutActivity" />
+        <activity android:name=".CacheActivity"></activity>
     </application>
 
 </manifest>

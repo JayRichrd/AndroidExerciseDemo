@@ -22,9 +22,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
-        when(level){
-            ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN ->{
-                Log.d(TAG,"leave the app.")
+        when (level) {
+            ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN -> {
+                Log.d(TAG, "leave the app.")
             }
         }
     }
@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnNewActivity.setOnClickListener(this)
         binding.btnAnimatorDemo.setOnClickListener(this)
         binding.btnOptimizeLayoutDemo.setOnClickListener(this)
+        binding.btnCache.setOnClickListener(this)
     }
 
     @SuppressLint("HardcodedStringDetector")
@@ -86,6 +87,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.btn_optimize_layout_demo -> {
                 startActivity(Intent(this, OptimizeLayoutActivity::class.java))
+            }
+            R.id.btn_cache -> {
+                startActivity(Intent(this, CacheActivity::class.java))
             }
             else -> {
 
