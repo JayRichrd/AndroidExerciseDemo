@@ -16,5 +16,6 @@ class MyApplication : Application() {
         builder.setPipelineDraweeControllerFactory(PipelineDraweeControllerFactory())
         Fresco.initialize(this, null, draweeConfig)
         QGameSimpleDraweeView.initialize(PipelineDraweeControllerBuilderSupplier(this, draweeConfig))
+        QGameDraweeView.Companion.initialize(PipelineDraweeControllerBuilderSupplier(this, draweeConfig))
     }
 }

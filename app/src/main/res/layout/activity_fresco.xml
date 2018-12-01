@@ -27,49 +27,55 @@
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/sdv_view"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
                 fresco:actualImageScaleType="fitXY"
                 fresco:placeholderImageScaleType="centerCrop" />
 
+                <!--fresco:overlayImage="@drawable/live_circle"-->
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/sdv_view1"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
-                fresco:overlayImage="@drawable/live_circle"
                 fresco:placeholderImageScaleType="centerCrop"
                 tools:ignore="SimpleDraweeViewUsage" />
+
+            <cain.tencent.com.androidexercisedemo.QGameDraweeView
+                android:id="@+id/sdv_view2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                fresco:actualImageScaleType="centerCrop"
+                fresco:placeholderImageScaleType="centerCrop" />
 
             <!--app:qgSdvResizeHeight="320dp"-->
             <!--app:qgSdvResizeWidth="320dp"-->
             <!--app:qgSdvResizeWidth="@{DensityUtil.dp2pxInt(context,100f)}"-->
             <!--app:imageOverlay="@drawable/live_circle"-->
+                <!--app:qgSdvImageOverlay="@{frescoActivity.test ? @drawable/live_circle : null}"-->
             <cain.tencent.com.androidexercisedemo.QGameSimpleDraweeView
                 android:id="@+id/qgsdv_view1"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 app:actualImageScaleType="fitXY"
-                app:placeholderImage="@drawable/head_place_holder"
-                app:qgSdvImageOverlay="@{frescoActivity.test ? @drawable/live_circle : null}"
-                app:qgSdvResizeHeight="32dp"
-                app:qgSdvResizeWidth="32dp"
-                app:roundAsCircle="true" />
+                app:placeholderImage="@drawable/head_place_holder" />
 
-            <cain.tencent.com.androidexercisedemo.QGameSimpleDraweeView
-                android:id="@+id/qgsdv_view2"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                app:actualImageScaleType="fitXY"
-                app:qgSdvResizeWidth="300dp"
-                app:qgSdvResizeHeight="100dp"
-                app:qgSdvImgResource="@drawable/top_video_icon" />
+            <!--<cain.tencent.com.androidexercisedemo.QGameSimpleDraweeView-->
+                <!--android:id="@+id/qgsdv_view2"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--app:actualImageScaleType="fitXY"-->
+                <!--app:qgSdvImgResource="@drawable/top_video_icon"-->
+                <!--app:qgSdvResizeHeight="100dp"-->
+                <!--app:qgSdvResizeWidth="300dp" />-->
         </LinearLayout>
     </ScrollView>
 

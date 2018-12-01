@@ -24,7 +24,8 @@
         <activity android:name=".RxJavaActivity" />
         <activity android:name=".Empty1Activity" />
         <activity android:name=".Empty2Activity" />
-        <activity android:name=".AnimatorActivity"></activity>
+        <activity android:name=".AnimatorActivity" />
+        <activity android:name=".OptimizeLayoutActivity"></activity>
     </application>
 
 </manifest>

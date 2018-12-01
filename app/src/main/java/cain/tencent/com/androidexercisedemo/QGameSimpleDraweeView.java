@@ -194,12 +194,22 @@ public class QGameSimpleDraweeView extends GenericDraweeView {
                     build();
         } else {
             Log.e(TAG, "You haven't set resizeWidth and resizeHeight!");
-            controller = mSimpleDraweeControllerBuilder.setCallerContext(callerContext).
-                    setUri(uri).
-                    setOldController(getController()).
-                    build();
+//            controller = mSimpleDraweeControllerBuilder.setCallerContext(callerContext).
+//                    setUri(uri).
+//                    setOldController(getController()).
+//                    build();
         }
         setController(controller);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (getMeasuredHeight() > 0 && getMeasuredWidth() > 0){
+            mResizeWidth = getMeasuredWidth();
+            mResizeHeight = getMeasuredHeight();
+            setImage(null);
+        }
     }
 
     private void setImage(@Nullable Object callerContext) {
