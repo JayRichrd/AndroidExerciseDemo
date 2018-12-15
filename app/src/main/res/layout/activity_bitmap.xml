@@ -25,5 +25,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="获取大小" />
+
+        <Button
+            android:id="@+id/btn_parse_bitmap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="解析图片" />
     </LinearLayout>
 </layout>

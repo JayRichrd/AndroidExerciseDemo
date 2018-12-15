@@ -32,6 +32,7 @@ class BitmapActivity : AppCompatActivity(), View.OnClickListener {
         // 直接加载
         binding.ivBitmap1.setImageBitmap(BitmapFactory.decodeResource(resources, R.drawable.sm))
         binding.btnGetSize.setOnClickListener(this)
+        binding.btnParseBitmap.setOnClickListener(this)
     }
 
     private fun createBitmap(reqWidth: Int, reqHeight: Int): Bitmap {
@@ -64,7 +65,15 @@ class BitmapActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btn_get_size -> getBitmapSize()
+            R.id.btn_parse_bitmap -> parseBitmap()
             else -> "nothing to do"
+        }
+    }
+
+    private fun parseBitmap() {
+        val bitmap = AppImageUtil.getScaledBitmap(this.resources, R.drawable.guardian_hover_danmaku_bg, DensityUtil.dp2px(this, 30f))
+        bitmap?.let {
+            Log.d(TAG, "bitmap width = ${bitmap.width}, height = ${bitmap.height}")
         }
     }
 
