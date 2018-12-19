@@ -77,6 +77,12 @@
                 app:actualImageScaleType="fitXY"
                 app:placeholderImage="@drawable/head_place_holder" />
 
+            <Button
+                android:id="@+id/btn_query_cache"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查询缓存" />
+
             <!--<cain.tencent.com.androidexercisedemo.QGameSimpleDraweeView-->
             <!--android:id="@+id/qgsdv_view2"-->
             <!--android:layout_width="match_parent"-->

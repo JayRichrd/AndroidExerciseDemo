@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnOptimizeLayoutDemo.setOnClickListener(this)
         binding.btnCache.setOnClickListener(this)
         binding.btnAnko1.setOnClickListener(this)
+        binding.btnFrescoCache.setOnClickListener(this)
     }
 
     @SuppressLint("HardcodedStringDetector")
@@ -94,6 +95,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.btn_anko1 -> {
                 startActivity(Intent(this, Anko1Activity::class.java))
+            }
+            R.id.btn_fresco_cache -> {
+                startActivity(Intent(this, FrescoCacheActivity::class.java))
             }
             else -> {
 

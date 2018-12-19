@@ -24,7 +24,21 @@ import com.facebook.imagepipeline.request.ImageRequestBuilder
 
 
 @SuppressLint("ActivityRouterAnnotationDetector")
-class FrescoActivity : AppCompatActivity() {
+class FrescoActivity : AppCompatActivity(), View.OnClickListener {
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.btn_query_cache -> onQueryCache()
+        }
+    }
+
+    @SuppressLint("HardcodedStringDetector")
+    private fun onQueryCache() {
+        val imagePipeLine = Fresco.getImagePipeline()
+//        val uri = Uri.parse("res://cain.tencent.com.androidexercisedemo/" + R.drawable.toutiao_is_live)
+        val uri = Uri.parse(imgUrlStr)
+        println("图片是否已经在缓存中：${imagePipeLine.isInBitmapMemoryCache(uri)}")
+    }
+
     companion object {
         const val TAG = "FrescoActivity"
     }
@@ -39,6 +53,7 @@ class FrescoActivity : AppCompatActivity() {
         binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_fresco, null, false)
         binding.setVariable(BR.frescoActivity, this)
         setContentView(binding.root)
+        binding.btnQueryCache.setOnClickListener(this)
         loadImg()
     }
 

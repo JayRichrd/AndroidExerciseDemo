@@ -29,7 +29,8 @@
         <activity android:name=".AnimatorActivity" />
         <activity android:name=".OptimizeLayoutActivity" />
         <activity android:name=".CacheActivity" />
-        <activity android:name=".Anko1Activity"></activity>
+        <activity android:name=".Anko1Activity" />
+        <activity android:name=".FrescoCacheActivity"></activity>
     </application>
 
 </manifest>

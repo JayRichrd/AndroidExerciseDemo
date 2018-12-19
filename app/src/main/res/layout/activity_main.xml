@@ -3,84 +3,97 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:scrollbars="vertical">
 
-        <Button
-            android:id="@+id/btn_fresco"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Fresco使用Demo" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btn_thread"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="启动一条线程" />
+            <Button
+                android:id="@+id/btn_fresco"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fresco使用Demo" />
 
-        <Button
-            android:id="@+id/btn_bitmap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="BitMap使用Demo" />
+            <Button
+                android:id="@+id/btn_thread"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="启动一条线程" />
 
-        <Button
-            android:id="@+id/btn_tips"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="弹框提示使用Demo" />
+            <Button
+                android:id="@+id/btn_bitmap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BitMap使用Demo" />
 
-        <Button
-            android:id="@+id/btn_rxjava"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="RxJava使用Demo" />
+            <Button
+                android:id="@+id/btn_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="弹框提示使用Demo" />
 
-        <Button
-            android:id="@+id/btn_gc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="gc crash测试" />
+            <Button
+                android:id="@+id/btn_rxjava"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RxJava使用Demo" />
 
-        <Button
-            android:id="@+id/btn_get_sys_inform"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="获取手机系统信息测试" />
+            <Button
+                android:id="@+id/btn_gc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="gc crash测试" />
 
-        <Button
-            android:id="@+id/btn_new_activity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="打开一个新的界面" />
+            <Button
+                android:id="@+id/btn_get_sys_inform"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="获取手机系统信息测试" />
 
-        <Button
-            android:id="@+id/btn_animator_demo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="属性动画使用demo" />
+            <Button
+                android:id="@+id/btn_new_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="打开一个新的界面" />
 
-        <Button
-            android:id="@+id/btn_optimize_layout_demo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="布局优化使用demo" />
+            <Button
+                android:id="@+id/btn_animator_demo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="属性动画使用demo" />
 
-        <Button
-            android:id="@+id/btn_cache"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="缓存demo" />
+            <Button
+                android:id="@+id/btn_optimize_layout_demo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="布局优化使用demo" />
 
-        <Button
-            android:id="@+id/btn_anko1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ankodemo" />
+            <Button
+                android:id="@+id/btn_cache"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="缓存demo" />
+
+            <Button
+                android:id="@+id/btn_anko1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ankodemo" />
+
+            <Button
+                android:id="@+id/btn_fresco_cache"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fresco缓存Demo" />
 
 
-    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
 
 </layout>
