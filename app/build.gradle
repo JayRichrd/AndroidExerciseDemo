@@ -39,13 +39,26 @@ kapt {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+//    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    // kotlin
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    //support库
     compile "com.android.support:appcompat-v7:${rootProject.supportLibVersion}"
     compile "com.android.support:design:${rootProject.supportLibVersion}"
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    // anko
+    compile "org.jetbrains.anko:anko-sdk25:${rootProject.ankoVersion}"
+    compile "org.jetbrains.anko:anko-appcompat-v7:${rootProject.ankoVersion}"
+    compile "org.jetbrains.anko:anko-design:${rootProject.ankoVersion}"
+    compile "org.jetbrains.anko:anko-recyclerview-v7:${rootProject.ankoVersion}"
+    compile "org.jetbrains.anko:anko-constraint-layout:${rootProject.ankoVersion}"
+    // fresco
     compile "com.facebook.fresco:fresco:${rootProject.fresco_version}"
+    compile "com.facebook.fresco:animated-gif:${rootProject.fresco_version}"
+    compile "com.facebook.fresco:animated-webp:${rootProject.fresco_version}"
+    // RxJava
     compile "io.reactivex.rxjava2:rxjava:${rootProject.rx_java_version}"
     compile "io.reactivex.rxjava2:rxandroid:${rootProject.rx_android_version}"
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     compile project(':lintrulsaar')
     kapt "com.android.databinding:compiler:${rootProject.android_plugin_version}"

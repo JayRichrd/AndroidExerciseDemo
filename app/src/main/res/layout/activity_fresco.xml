@@ -33,6 +33,15 @@
                 fresco:actualImageScaleType="fitXY"
                 fresco:placeholderImageScaleType="centerCrop" />
 
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/sdv_webP"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                fresco:actualImageScaleType="fitXY"
+                fresco:placeholderImageScaleType="centerCrop" />
+
             <!--fresco:overlayImage="@drawable/live_circle"-->
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/sdv_view1"

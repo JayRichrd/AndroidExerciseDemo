@@ -1,5 +1,6 @@
 package cain.tencent.com.androidexercisedemo
 
+import android.annotation.SuppressLint
 import android.databinding.DataBindingUtil
 import android.databinding.Observable
 import android.databinding.ObservableField
@@ -22,19 +23,21 @@ import com.facebook.imagepipeline.postprocessors.RoundAsCirclePostprocessor
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 
 
+@SuppressLint("ActivityRouterAnnotationDetector")
 class FrescoActivity : AppCompatActivity() {
     companion object {
         const val TAG = "FrescoActivity"
     }
+
     lateinit var binding: ActivityFrescoBinding
-//    var imgUrlStr: String = "https://www.gstatic.com/webp/gallery/1.sm.jpg"
+    //    var imgUrlStr: String = "https://www.gstatic.com/webp/gallery/1.sm.jpg"
     var imgUrlStr: String = "http://imgcache.gtimg.cn/ACT/svip_act/act_img/public/201811/m1541474041_sctc.png"
     val test = ObservableField<Boolean>(true)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_fresco, null, false)
-        binding.setVariable(BR.frescoActivity,this)
+        binding.setVariable(BR.frescoActivity, this)
         setContentView(binding.root)
         loadImg()
     }
@@ -78,11 +81,15 @@ class FrescoActivity : AppCompatActivity() {
         binding.sdvView.controller = controller
         binding.sdvView1.setImageURI(imgUrlStr)
         binding.sdvView2.setImageURI(imgUrlStr)
-        binding.qgsdvView1.setQgSdvImgUrl(imgUrlStr,null)
+        binding.qgsdvView1.setQgSdvImgUrl(imgUrlStr, null)
+
+        val uri = Uri.parse("res://cain.tencent.com.androidexercisedemo/" + R.drawable.toutiao_is_live)
+        val webPController = Fresco.newDraweeControllerBuilder().setUri(uri).setAutoPlayAnimations(true).build()
+        binding.sdvWebP.controller = webPController
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.i(TAG,"onDestroy")
+        Log.i(TAG, "onDestroy")
     }
 }
