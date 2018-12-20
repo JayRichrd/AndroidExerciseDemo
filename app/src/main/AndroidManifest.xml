@@ -30,7 +30,8 @@
         <activity android:name=".OptimizeLayoutActivity" />
         <activity android:name=".CacheActivity" />
         <activity android:name=".Anko1Activity" />
-        <activity android:name=".FrescoCacheActivity"></activity>
+        <activity android:name=".FrescoCacheActivity" />
+        <activity android:name=".WebPCacheActivity"></activity>
     </application>
 
 </manifest>

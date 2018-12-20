@@ -31,8 +31,9 @@ class FrescoCacheActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun loadOtherImage() {
-        val imageRequest = ImageRequestBuilder.newBuilderWithSource(Uri.parse(imgUrlStr)).build()
-        val controller = Fresco.newDraweeControllerBuilder().setImageRequest(imageRequest).build()
-        binding.sdvView1.controller = controller
+//        val imageRequest = ImageRequestBuilder.newBuilderWithSource(Uri.parse(imgUrlStr)).build()
+//        val controller = Fresco.newDraweeControllerBuilder().setImageRequest(imageRequest).build()
+//        binding.sdvView1.controller = controller
+        binding.sdvView1.setImageURI(imgUrlStr)
     }
 }

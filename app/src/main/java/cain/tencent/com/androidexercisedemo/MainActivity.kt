@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnCache.setOnClickListener(this)
         binding.btnAnko1.setOnClickListener(this)
         binding.btnFrescoCache.setOnClickListener(this)
+        binding.btnFrescoWebpCache.setOnClickListener(this)
     }
 
     @SuppressLint("HardcodedStringDetector")
@@ -98,6 +99,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.btn_fresco_cache -> {
                 startActivity(Intent(this, FrescoCacheActivity::class.java))
+            }
+            R.id.btn_fresco_webp_cache -> {
+                startActivity(Intent(this, WebPCacheActivity::class.java))
             }
             else -> {
 
