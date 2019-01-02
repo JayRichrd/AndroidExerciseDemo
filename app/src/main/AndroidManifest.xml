@@ -31,7 +31,8 @@
         <activity android:name=".CacheActivity" />
         <activity android:name=".Anko1Activity" />
         <activity android:name=".FrescoCacheActivity" />
-        <activity android:name=".WebPCacheActivity"></activity>
+        <activity android:name=".WebPCacheActivity" />
+        <activity android:name=".PhotoWallActivity"></activity>
     </application>
 
 </manifest>

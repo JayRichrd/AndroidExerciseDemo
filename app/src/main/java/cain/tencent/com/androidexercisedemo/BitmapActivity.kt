@@ -1,5 +1,7 @@
 package cain.tencent.com.androidexercisedemo
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -12,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import cain.tencent.com.androidexercisedemo.databinding.ActivityBitmapBinding
 
+@SuppressLint("ActivityRouterAnnotationDetector")
 class BitmapActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var binding: ActivityBitmapBinding
 
@@ -26,6 +29,7 @@ class BitmapActivity : AppCompatActivity(), View.OnClickListener {
         initView()
     }
 
+    @SuppressLint("ViewPostRunnableDetector")
     private fun initView() {
         // 缩放以后再加载
         binding.ivBitmap.post { binding.ivBitmap.setImageBitmap(createBitmap(binding.ivBitmap.measuredWidth, binding.ivBitmap.measuredHeight)) }
@@ -33,6 +37,7 @@ class BitmapActivity : AppCompatActivity(), View.OnClickListener {
         binding.ivBitmap1.setImageBitmap(BitmapFactory.decodeResource(resources, R.drawable.sm))
         binding.btnGetSize.setOnClickListener(this)
         binding.btnParseBitmap.setOnClickListener(this)
+        binding.btnOpenPhotoWall.setOnClickListener(this)
     }
 
     private fun createBitmap(reqWidth: Int, reqHeight: Int): Bitmap {
@@ -66,6 +71,7 @@ class BitmapActivity : AppCompatActivity(), View.OnClickListener {
         when (v?.id) {
             R.id.btn_get_size -> getBitmapSize()
             R.id.btn_parse_bitmap -> parseBitmap()
+            R.id.btn_open_photo_wall -> startActivity(Intent(this, PhotoWallActivity::class.java))
             else -> "nothing to do"
         }
     }
