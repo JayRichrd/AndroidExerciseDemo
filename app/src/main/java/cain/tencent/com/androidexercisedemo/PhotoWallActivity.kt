@@ -24,6 +24,11 @@ class PhotoWallActivity : AppCompatActivity() {
         binding.photoWall.adapter = adapter
     }
 
+    override fun onPause() {
+        super.onPause()
+        adapter.flushCache()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         // 退出程序时结束所有的下载任务

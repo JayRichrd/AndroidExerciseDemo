@@ -15,10 +15,19 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
+
+import cain.tencent.com.androidexercisedemo.cache.DiskLruCache;
 
 /**
  * @author cainjiang
@@ -34,6 +43,10 @@ public class PhotoWallAdapter extends ArrayAdapter<String> implements AbsListVie
      * 图片缓存技术的核心类，用于缓存所有下载好的图片，在程序内存达到设定值时会将最少最近使用的图片移除掉。
      */
     private LruCache<String, Bitmap> mMemoryCache;
+    /**
+     * 图片硬盘缓存核心类。
+     */
+    private DiskLruCache mDiskLruCache;
 
     /**
      * GridView的实例
@@ -55,7 +68,14 @@ public class PhotoWallAdapter extends ArrayAdapter<String> implements AbsListVie
      */
     private boolean isFirstEnter = true;
 
-    public PhotoWallAdapter(Context context, int textViewResourceId, String[] objects, GridView photoWall) {
+    /**
+     * 记录每个子项的高度。
+     */
+    private int mItemHeight = 0;
+
+
+    public PhotoWallAdapter(Context context, int textViewResourceId, String[] objects, GridView
+            photoWall) {
         super(context, textViewResourceId, objects);
         mPhotoWall = photoWall;
         taskCollection = new HashSet<BitmapWorkerTask>();
@@ -69,6 +89,15 @@ public class PhotoWallAdapter extends ArrayAdapter<String> implements AbsListVie
             }
         };
         mPhotoWall.setOnScrollListener(this);
+        try {
+            File cacheDir = MyUtils.getUniqueCacheDir(context, "photo");
+            if (!cacheDir.exists()) {
+                cacheDir.mkdirs();
+            }
+            mDiskLruCache = DiskLruCache.open(cacheDir, MyUtils.getAppVersion(context), 1, 10 * 1024 * 1024);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @NonNull
@@ -82,12 +111,27 @@ public class PhotoWallAdapter extends ArrayAdapter<String> implements AbsListVie
             view = convertView;
         }
         final ImageView photo = (ImageView) view.findViewById(R.id.photo);
-
+//        if (photo.getLayoutParams().height != mItemHeight) {
+//            photo.getLayoutParams().height = mItemHeight;
+//        }
         // 给ImageView设置一个Tag，保证异步加载图片时不会乱序
         photo.setTag(url);
         setImageView(url, photo);
         return view;
 
+    }
+
+    /**
+     * 将缓存记录同步到journal文件中
+     */
+    void flushCache() {
+        if (mDiskLruCache != null) {
+            try {
+                mDiskLruCache.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -186,13 +230,58 @@ public class PhotoWallAdapter extends ArrayAdapter<String> implements AbsListVie
         @Override
         protected Bitmap doInBackground(String... params) {
             imageUrl = params[0];
-            // 在后台开始下载图片
-            Bitmap bitmap = downloadBitmap(params[0]);
-            if (bitmap != null) {
-                // 图片下载完成后缓存到LrcCache中
-                addBitmapToMemoryCache(params[0], bitmap);
+            FileDescriptor fileDescriptor = null;
+            FileInputStream fileInputStream = null;
+            DiskLruCache.Snapshot snapshot = null;
+            try {
+                String key = MyUtils.hashKeyForDisk(imageUrl);
+                snapshot = mDiskLruCache.get(key);
+                if (snapshot == null) {
+                    DiskLruCache.Editor editor = mDiskLruCache.edit(key);
+                    if (editor != null) {
+                        OutputStream outputStream = editor.newOutputStream(0);
+                        if (downloadBitmap(imageUrl, outputStream)) {
+                            editor.commit();
+                        } else {
+                            editor.abort();
+                        }
+                    }
+                    // 缓存被写入后，再次查找key对应的缓存
+                    snapshot = mDiskLruCache.get(key);
+                }
+
+                if (snapshot != null) {
+                    fileInputStream = (FileInputStream) snapshot.getInputStream(0);
+                    fileDescriptor = fileInputStream.getFD();
+                }
+
+                Bitmap bitmap = null;
+                if (fileDescriptor != null) {
+                    bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+                }
+                if (bitmap != null) {
+                    addBitmapToMemoryCache(imageUrl, bitmap);
+                }
+                return bitmap;
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (fileDescriptor == null && fileInputStream != null) {
+                    try {
+                        fileInputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-            return bitmap;
+            return null;
+            // 在后台开始下载图片
+//            Bitmap bitmap = downloadBitmap(params[0]);
+//            if (bitmap != null) {
+            // 图片下载完成后缓存到LrcCache中
+//                addBitmapToMemoryCache(params[0], bitmap);
+//            }
+//            return bitmap;
         }
 
         /**
@@ -218,6 +307,50 @@ public class PhotoWallAdapter extends ArrayAdapter<String> implements AbsListVie
                 }
             }
             return bitmap;
+
+        }
+
+        /**
+         * 通过url下载资源，并将资源写入缓存中
+         *
+         * @param imageUrl
+         * @param outputStream
+         * @return
+         */
+        private boolean downloadBitmap(String imageUrl, OutputStream outputStream) {
+            HttpURLConnection con = null;
+            BufferedOutputStream bufferedOutputStream = null;
+            BufferedInputStream bufferedInputStream = null;
+            try {
+                URL url = new URL(imageUrl);
+                con = (HttpURLConnection) url.openConnection();
+                con.setConnectTimeout(5 * 1000);
+                con.setReadTimeout(10 * 1000);
+                bufferedInputStream = new BufferedInputStream(con.getInputStream(), 8 * 1024);
+                bufferedOutputStream = new BufferedOutputStream(outputStream, 8 * 1024);
+                int b;
+                while ((b = bufferedInputStream.read()) != -1) {
+                    bufferedOutputStream.write(b);
+                }
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (con != null) {
+                    con.disconnect();
+                }
+                try {
+                    if (bufferedInputStream != null) {
+                        bufferedInputStream.close();
+                    }
+                    if (bufferedOutputStream != null) {
+                        bufferedOutputStream.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return false;
 
         }
 
