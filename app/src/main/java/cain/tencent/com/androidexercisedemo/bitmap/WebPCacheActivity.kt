@@ -1,4 +1,4 @@
-package cain.tencent.com.androidexercisedemo
+package cain.tencent.com.androidexercisedemo.bitmap
 
 import android.databinding.DataBindingUtil
 import android.net.Uri
@@ -6,12 +6,9 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import cain.tencent.com.androidexercisedemo.ViewModelMethod.loadImage
-import cain.tencent.com.androidexercisedemo.databinding.ActivityFrescoCacheBinding
+import cain.tencent.com.androidexercisedemo.R
 import cain.tencent.com.androidexercisedemo.databinding.ActivityWebPcacheBinding
 import com.facebook.drawee.backends.pipeline.Fresco
-import com.facebook.drawee.controller.AbstractDraweeController
-import com.facebook.drawee.interfaces.DraweeController
 
 class WebPCacheActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {

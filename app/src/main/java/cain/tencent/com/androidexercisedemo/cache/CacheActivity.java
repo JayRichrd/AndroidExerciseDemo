@@ -1,4 +1,4 @@
-package cain.tencent.com.androidexercisedemo;
+package cain.tencent.com.androidexercisedemo.cache;
 
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -21,8 +21,10 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import cain.tencent.com.androidexercisedemo.R;
 import cain.tencent.com.androidexercisedemo.cache.DiskLruCache;
 import cain.tencent.com.androidexercisedemo.databinding.ActivityLuaCacheBinding;
+import cain.tencent.com.androidexercisedemo.utils.MyUtils;
 
 public class CacheActivity extends AppCompatActivity implements View.OnClickListener {
     ActivityLuaCacheBinding binding;

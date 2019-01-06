@@ -1,4 +1,4 @@
-package cain.tencent.com.androidexercisedemo;
+package cain.tencent.com.androidexercisedemo.bitmap;
 
 /**
  * @author cainjiang

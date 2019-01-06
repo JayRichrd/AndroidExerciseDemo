@@ -1,15 +1,12 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
-
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
+
     defaultConfig {
         applicationId "cain.tencent.com.androidexercisedemo"
         minSdkVersion rootProject.minSdkVersion
@@ -17,17 +14,22 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        //开启MultiDex
+        multiDexEnabled true
     }
+
     buildTypes {
         release {
-            shrinkResources true
+            //shrinkResources true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+
     dataBinding {
         enabled = true
     }
@@ -38,39 +40,44 @@ kapt {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-
-    //    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // kotlin
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    //compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     //support库
-    compile "com.android.support:appcompat-v7:${rootProject.supportLibVersion}"
-    compile "com.android.support:design:${rootProject.supportLibVersion}"
+    implementation "com.android.support:appcompat-v7:${rootProject.supportLibVersion}"
+    implementation "com.android.support:design:${rootProject.supportLibVersion}"
 
     // anko
-    compile "org.jetbrains.anko:anko-sdk25:${rootProject.ankoVersion}"
-    compile "org.jetbrains.anko:anko-appcompat-v7:${rootProject.ankoVersion}"
-    compile "org.jetbrains.anko:anko-design:${rootProject.ankoVersion}"
-    compile "org.jetbrains.anko:anko-recyclerview-v7:${rootProject.ankoVersion}"
-    compile "org.jetbrains.anko:anko-constraint-layout:${rootProject.ankoVersion}"
+    implementation "org.jetbrains.anko:anko-sdk25:${rootProject.ankoVersion}"
+    implementation "org.jetbrains.anko:anko-appcompat-v7:${rootProject.ankoVersion}"
+    implementation "org.jetbrains.anko:anko-design:${rootProject.ankoVersion}"
+    implementation "org.jetbrains.anko:anko-recyclerview-v7:${rootProject.ankoVersion}"
+    implementation "org.jetbrains.anko:anko-constraint-layout:${rootProject.ankoVersion}"
 
     // fresco
-    compile "com.facebook.fresco:fresco:${rootProject.fresco_version}"
-    compile "com.facebook.fresco:animated-gif:${rootProject.fresco_version}"
-    compile "com.facebook.fresco:animated-webp:${rootProject.fresco_version}"
+    implementation "com.facebook.fresco:fresco:${rootProject.fresco_version}"
+    implementation "com.facebook.fresco:animated-gif:${rootProject.fresco_version}"
+    implementation "com.facebook.fresco:animated-webp:${rootProject.fresco_version}"
 
     // RxJava
-    compile "io.reactivex.rxjava2:rxjava:${rootProject.rx_java_version}"
-    compile "io.reactivex.rxjava2:rxandroid:${rootProject.rx_android_version}"
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile project(':lintrulsaar')
-    kapt "com.android.databinding:compiler:${rootProject.android_plugin_version}"
+    implementation "io.reactivex.rxjava2:rxjava:${rootProject.rx_java_version}"
+    implementation "io.reactivex.rxjava2:rxandroid:${rootProject.rx_android_version}"
 
-    //    testCompile 'junit:junit:4.12'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation project(':lintrulsaar')
 
-    //    androidTestCompile 'com.android.support.test:runner:1.0.1'
+    //dataBinding
+    //kapt "com.android.databinding:compiler:${rootProject.android_plugin_version}"
 
-    //    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation 'com.tencent.qgame:widget:1.0.9'
+
+    //MultiDex
+    implementation "com.android.support:multidex:${rootProject.multidexVersion}"
+
+    //testCompile 'junit:junit:4.12'
+    //androidTestCompile 'com.android.support.test:runner:1.0.1'
+    //androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
 }

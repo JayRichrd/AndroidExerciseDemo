@@ -6,13 +6,13 @@
 
     <data>
 
-        <import type="cain.tencent.com.androidexercisedemo.DensityUtil" />
+        <import type="cain.tencent.com.androidexercisedemo.utils.DensityUtil" />
 
-        <import type="cain.tencent.com.androidexercisedemo.FrescoActivity" />
+        <import type="cain.tencent.com.androidexercisedemo.bitmap.FrescoActivity" />
 
         <variable
             name="frescoActivity"
-            type="FrescoActivity" />
+            type="cain.tencent.com.androidexercisedemo.bitmap.FrescoActivity" />
     </data>
 
     <ScrollView

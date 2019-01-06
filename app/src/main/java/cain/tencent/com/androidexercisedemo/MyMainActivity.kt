@@ -10,14 +10,20 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import cain.tencent.com.androidexercisedemo.animator.AnimatorActivity
+import cain.tencent.com.androidexercisedemo.bitmap.BitmapActivity
+import cain.tencent.com.androidexercisedemo.bitmap.FrescoActivity
+import cain.tencent.com.androidexercisedemo.bitmap.FrescoCacheActivity
+import cain.tencent.com.androidexercisedemo.bitmap.WebPCacheActivity
+import cain.tencent.com.androidexercisedemo.cache.CacheActivity
 import cain.tencent.com.androidexercisedemo.databinding.ActivityMainBinding
 
 @SuppressLint("ActivityRouterAnnotationDetector")
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+class MyMainActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var binding: ActivityMainBinding
 
     companion object {
-        const val TAG = "MainActivity"
+        const val TAG = "MyMainActivity"
     }
 
     override fun onTrimMemory(level: Int) {
@@ -51,6 +57,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnAnko1.setOnClickListener(this)
         binding.btnFrescoCache.setOnClickListener(this)
         binding.btnFrescoWebpCache.setOnClickListener(this)
+        binding.btnActionBar.setOnClickListener(this)
     }
 
     @SuppressLint("HardcodedStringDetector")
@@ -102,6 +109,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.btn_fresco_webp_cache -> {
                 startActivity(Intent(this, WebPCacheActivity::class.java))
+            }
+            R.id.btn_action_bar -> {
+                startActivity(Intent(this, ComboActivity::class.java))
             }
             else -> {
 

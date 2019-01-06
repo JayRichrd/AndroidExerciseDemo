@@ -1,4 +1,4 @@
-package cain.tencent.com.androidexercisedemo
+package cain.tencent.com.androidexercisedemo.bitmap
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -12,6 +12,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import cain.tencent.com.androidexercisedemo.utils.DensityUtil
+import cain.tencent.com.androidexercisedemo.R
 import cain.tencent.com.androidexercisedemo.databinding.ActivityBitmapBinding
 
 @SuppressLint("ActivityRouterAnnotationDetector")

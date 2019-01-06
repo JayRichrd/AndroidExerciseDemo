@@ -8,18 +8,18 @@ import android.content.Context;
  * Created by luciolong on 2016/9/29.
  * 基本dialog类型，解决dismiss时crash问题
  */
-public class BaseDialog extends Dialog {
-    public static final String TAG = "BaseDialog";
+public class BaseDemoDialog extends Dialog {
+    public static final String TAG = "BaseDemoDialog";
 
-    public BaseDialog(Context context) {
+    public BaseDemoDialog(Context context) {
         super(context);
     }
 
-    public BaseDialog(Context context, int themeResId) {
+    public BaseDemoDialog(Context context, int themeResId) {
         super(context, themeResId);
     }
 
-    protected BaseDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
+    protected BaseDemoDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
     }
 

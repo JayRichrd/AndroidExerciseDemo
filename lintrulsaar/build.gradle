@@ -43,8 +43,8 @@ project.afterEvaluate {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:appcompat-v7:${rootProject.supportLibVersion}"
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "com.android.support:appcompat-v7:${rootProject.supportLibVersion}"
 
     lintJarImport project(path: ":lintrules", configuration: "lintJarOutput")
 //    testCompile 'junit:junit:4.12'

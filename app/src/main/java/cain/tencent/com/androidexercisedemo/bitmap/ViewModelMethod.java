@@ -1,4 +1,4 @@
-package cain.tencent.com.androidexercisedemo;
+package cain.tencent.com.androidexercisedemo.bitmap;
 
 import android.databinding.BindingAdapter;
 import android.graphics.PointF;
@@ -8,6 +8,8 @@ import android.text.TextUtils;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.view.DraweeView;
 import com.facebook.drawee.view.SimpleDraweeView;
+
+import cain.tencent.com.androidexercisedemo.QGameSimpleDraweeView;
 
 /**
  * @author cainjiang
@@ -21,7 +23,7 @@ public class ViewModelMethod {
      * @param overlayImg 前景图
      */
     @BindingAdapter({"imageOverlay"})
-    public static void loadImage(final QGameSimpleDraweeView view,Drawable overlayImg) {
+    public static void loadImage(final QGameSimpleDraweeView view, Drawable overlayImg) {
         GenericDraweeHierarchy hierarchy = view.getHierarchy();
         hierarchy.setActualImageFocusPoint(new PointF(0.5f, 0.5f));
         if (overlayImg != null) {

@@ -1,15 +1,13 @@
-package cain.tencent.com.androidexercisedemo
+package cain.tencent.com.androidexercisedemo.bitmap
 
 import android.annotation.SuppressLint
 import android.databinding.DataBindingUtil
-import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import cain.tencent.com.androidexercisedemo.R
 import cain.tencent.com.androidexercisedemo.databinding.ActivityFrescoCacheBinding
-import com.facebook.drawee.backends.pipeline.Fresco
-import com.facebook.imagepipeline.request.ImageRequestBuilder
 
 @SuppressLint("ActivityRouterAnnotationDetector")
 class FrescoCacheActivity : AppCompatActivity(), View.OnClickListener {

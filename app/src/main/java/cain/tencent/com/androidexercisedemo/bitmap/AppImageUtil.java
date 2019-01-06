@@ -1,4 +1,4 @@
-package cain.tencent.com.androidexercisedemo;
+package cain.tencent.com.androidexercisedemo.bitmap;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;

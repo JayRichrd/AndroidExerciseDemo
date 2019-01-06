@@ -1,4 +1,4 @@
-package cain.tencent.com.androidexercisedemo;
+package cain.tencent.com.androidexercisedemo.animator;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import cain.tencent.com.androidexercisedemo.R;
 import cain.tencent.com.androidexercisedemo.databinding.ActivityAnimatorBinding;
 
 @SuppressLint("ActivityRouterAnnotationDetector")

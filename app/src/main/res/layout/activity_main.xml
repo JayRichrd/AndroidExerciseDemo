@@ -97,6 +97,11 @@
                 android:layout_height="wrap_content"
                 android:text="Fresco中WebP缓存Demo" />
 
+            <Button
+                android:id="@+id/btn_action_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Combo使用Demo" />
 
         </LinearLayout>
     </ScrollView>

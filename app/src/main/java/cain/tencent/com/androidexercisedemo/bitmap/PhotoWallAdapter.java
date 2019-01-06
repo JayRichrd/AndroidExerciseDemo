@@ -1,4 +1,4 @@
-package cain.tencent.com.androidexercisedemo;
+package cain.tencent.com.androidexercisedemo.bitmap;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -27,7 +27,9 @@ import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
+import cain.tencent.com.androidexercisedemo.R;
 import cain.tencent.com.androidexercisedemo.cache.DiskLruCache;
+import cain.tencent.com.androidexercisedemo.utils.MyUtils;
 
 /**
  * @author cainjiang

@@ -1,6 +1,6 @@
 @file:JvmName("MyUtils")
 
-package cain.tencent.com.androidexercisedemo
+package cain.tencent.com.androidexercisedemo.utils
 
 import android.content.Context
 import android.os.Environment

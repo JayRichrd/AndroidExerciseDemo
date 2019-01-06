@@ -1,4 +1,4 @@
-package cain.tencent.com.androidexercisedemo
+package cain.tencent.com.androidexercisedemo.dialog
 
 import android.app.Activity
 import android.content.res.Configuration
@@ -7,7 +7,10 @@ import android.graphics.drawable.Animatable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import cain.tencent.com.androidexercisedemo.BaseDemoDialog
+import cain.tencent.com.androidexercisedemo.R
 import cain.tencent.com.androidexercisedemo.databinding.DialogFirstChargeLayoutBinding
+import cain.tencent.com.androidexercisedemo.utils.DensityUtil
 import com.facebook.drawee.controller.ControllerListener
 import com.facebook.imagepipeline.image.ImageInfo
 
@@ -19,14 +22,14 @@ import com.facebook.imagepipeline.image.ImageInfo
  *
  * @param screenType 参考 VideoConstant类
  */
-class FirstRechargeDialog(private val activity: Activity,
-                          private val from: Int,
-                          private val screenType: Int,
-                          private val imgUrl:String)
-    : BaseDialog(activity), ControllerListener<ImageInfo> {
+class FirstRechargeDemoDemoDialog(private val activity: Activity,
+                                  private val from: Int,
+                                  private val screenType: Int,
+                                  private val imgUrl:String)
+    : BaseDemoDialog(activity), ControllerListener<ImageInfo> {
 
     companion object {
-        private const val TAG = "FirstRechargeDialog"
+        private const val TAG = "FirstRechargeDemoDemoDialog"
         private const val PORTRAIT_SIZE = 375f
         private const val LANDSCAPE_SIZE = 300f
 

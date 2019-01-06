@@ -1,4 +1,4 @@
-package cain.tencent.com.androidexercisedemo
+package cain.tencent.com.androidexercisedemo.bitmap
 
 import android.graphics.Bitmap
 import android.graphics.Canvas

@@ -1,8 +1,7 @@
-package cain.tencent.com.androidexercisedemo
+package cain.tencent.com.androidexercisedemo.bitmap
 
 import android.annotation.SuppressLint
 import android.databinding.DataBindingUtil
-import android.databinding.Observable
 import android.databinding.ObservableField
 import android.graphics.drawable.Animatable
 import android.net.Uri
@@ -12,6 +11,8 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import cain.tencent.com.androidexercisedemo.BR
+import cain.tencent.com.androidexercisedemo.R
 import cain.tencent.com.androidexercisedemo.databinding.ActivityFrescoBinding
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.controller.BaseControllerListener
@@ -19,7 +20,6 @@ import com.facebook.imagepipeline.common.ImageDecodeOptions
 import com.facebook.imagepipeline.common.ImageDecodeOptionsBuilder
 import com.facebook.imagepipeline.common.ResizeOptions
 import com.facebook.imagepipeline.image.ImageInfo
-import com.facebook.imagepipeline.postprocessors.RoundAsCirclePostprocessor
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 
 

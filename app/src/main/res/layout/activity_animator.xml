@@ -48,7 +48,7 @@
             android:text="动画"
             android:textColor="@android:color/background_dark" />
 
-        <cain.tencent.com.androidexercisedemo.EvaluatorView
+        <cain.tencent.com.androidexercisedemo.animator.EvaluatorView
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

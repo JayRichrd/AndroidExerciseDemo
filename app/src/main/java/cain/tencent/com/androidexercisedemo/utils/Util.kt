@@ -1,6 +1,6 @@
 @file:JvmName("CommonUtils")
 
-package cain.tencent.com.androidexercisedemo
+package cain.tencent.com.androidexercisedemo.utils
 
 import android.content.Context
 import android.widget.Toast

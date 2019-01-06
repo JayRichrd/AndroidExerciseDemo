@@ -1,6 +1,8 @@
-package cain.tencent.com.androidexercisedemo;
+package cain.tencent.com.androidexercisedemo.animator;
 
 import android.animation.TypeEvaluator;
+
+import cain.tencent.com.androidexercisedemo.animator.Point;
 
 /**
  * @author cainjiang

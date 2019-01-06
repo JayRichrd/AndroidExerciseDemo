@@ -1,6 +1,8 @@
 package cain.tencent.com.androidexercisedemo
 
 import android.app.Application
+import android.content.Context
+import android.support.multidex.MultiDex
 import android.util.Log
 import com.facebook.drawee.backends.pipeline.DraweeConfig
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -20,5 +22,10 @@ class MyApplication : Application() {
         QGameDraweeView.Companion.initialize(PipelineDraweeControllerBuilderSupplier(this, draweeConfig))
         val maxMemory = Runtime.getRuntime().maxMemory() / 1024
         Log.i("MyApplication","Max memory is = " + maxMemory + "k")
+    }
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
     }
 }

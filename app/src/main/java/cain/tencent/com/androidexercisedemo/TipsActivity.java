@@ -1,10 +1,7 @@
 package cain.tencent.com.androidexercisedemo;
 
-import android.animation.ValueAnimator;
-import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +11,8 @@ import android.view.View;
 import android.view.WindowManager;
 
 import cain.tencent.com.androidexercisedemo.databinding.ActivityTipsBinding;
+import cain.tencent.com.androidexercisedemo.dialog.FirstRechargeDemoDemoDialog;
+import cain.tencent.com.androidexercisedemo.utils.CommonUtils;
 
 public class TipsActivity extends AppCompatActivity implements View.OnClickListener {
     private ActivityTipsBinding databing;
@@ -73,13 +72,13 @@ public class TipsActivity extends AppCompatActivity implements View.OnClickListe
 //        });
 //        builder.show();
 
-        FirstRechargeDialog firstRechargeDialog = new FirstRechargeDialog(this,1,0,"");
-        firstRechargeDialog.show();
+        FirstRechargeDemoDemoDialog firstRechargeDemoDialog = new FirstRechargeDemoDemoDialog(this,1,0,"");
+        firstRechargeDemoDialog.show();
         WindowManager windowManager = getWindowManager();
         Display defaultDisplay = windowManager.getDefaultDisplay();
-        WindowManager.LayoutParams attributes = firstRechargeDialog.getWindow().getAttributes();
+        WindowManager.LayoutParams attributes = firstRechargeDemoDialog.getWindow().getAttributes();
         attributes.width = defaultDisplay.getWidth();
-        firstRechargeDialog.getWindow().setAttributes(attributes);
+        firstRechargeDemoDialog.getWindow().setAttributes(attributes);
 
     }
 
