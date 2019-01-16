@@ -45,7 +45,8 @@ class FrescoActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var binding: ActivityFrescoBinding
     //    var imgUrlStr: String = "https://www.gstatic.com/webp/gallery/1.sm.jpg"
-    var imgUrlStr: String = "http://imgcache.gtimg.cn/ACT/svip_act/act_img/public/201811/m1541474041_sctc.png"
+//    var imgUrlStr: String = "http://imgcache.gtimg.cn/ACT/svip_act/act_img/public/201811/m1541474041_sctc.png"
+    var imgUrlStr: String = "http://shp.qpic.cn/pggamehead/469282982/5285890784361344739/0"
     val test = ObservableField<Boolean>(true)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,6 +98,7 @@ class FrescoActivity : AppCompatActivity(), View.OnClickListener {
         binding.sdvView1.setImageURI(imgUrlStr)
         binding.sdvView2.setImageURI(imgUrlStr)
         binding.qgsdvView1.setQgSdvImgUrl(imgUrlStr, null)
+        binding.qgsdvView2.setQgSdvImgUrl(imgUrlStr, null)
 
         val uri = Uri.parse("res://cain.tencent.com.androidexercisedemo/" + R.drawable.toutiao_is_live)
         val webPController = Fresco.newDraweeControllerBuilder().setUri(uri).setAutoPlayAnimations(true).build()

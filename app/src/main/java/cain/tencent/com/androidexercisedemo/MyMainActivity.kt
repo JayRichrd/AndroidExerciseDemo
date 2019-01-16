@@ -11,10 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import cain.tencent.com.androidexercisedemo.animator.AnimatorActivity
-import cain.tencent.com.androidexercisedemo.bitmap.BitmapActivity
-import cain.tencent.com.androidexercisedemo.bitmap.FrescoActivity
-import cain.tencent.com.androidexercisedemo.bitmap.FrescoCacheActivity
-import cain.tencent.com.androidexercisedemo.bitmap.WebPCacheActivity
+import cain.tencent.com.androidexercisedemo.bitmap.*
 import cain.tencent.com.androidexercisedemo.cache.CacheActivity
 import cain.tencent.com.androidexercisedemo.databinding.ActivityMainBinding
 
@@ -58,6 +55,7 @@ class MyMainActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnFrescoCache.setOnClickListener(this)
         binding.btnFrescoWebpCache.setOnClickListener(this)
         binding.btnActionBar.setOnClickListener(this)
+        binding.btnRotate.setOnClickListener(this)
     }
 
     @SuppressLint("HardcodedStringDetector")
@@ -112,6 +110,9 @@ class MyMainActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.btn_action_bar -> {
                 startActivity(Intent(this, ComboActivity::class.java))
+            }
+            R.id.btn_rotate -> {
+                startActivity(Intent(this, RotateActivity::class.java))
             }
             else -> {
 

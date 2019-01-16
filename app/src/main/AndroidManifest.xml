@@ -34,6 +34,7 @@
         <activity android:name=".bitmap.WebPCacheActivity" />
         <activity android:name=".bitmap.PhotoWallActivity" />
         <activity android:name=".ComboActivity" />
+        <activity android:name=".bitmap.RotateActivity"></activity>
     </application>
 
 </manifest>
