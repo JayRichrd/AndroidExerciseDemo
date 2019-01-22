@@ -17,13 +17,14 @@ buildscript {
     ext.gradle_version = '3.1.4'
     repositories {
 //        google()
-//        jcenter()
-        maven {
-            url "http://maven.oa.com/nexus/content/groups/androidbuild"
-        }
-        maven {
-            url "http://maven.oa.com/nexus/content/repositories/jcenter/"
-        }
+        jcenter()
+        google()
+//        maven {
+//            url "http://maven.oa.com/nexus/content/groups/androidbuild"
+//        }
+//        maven {
+//            url "http://maven.oa.com/nexus/content/repositories/jcenter/"
+//        }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$gradle_version"
@@ -44,6 +45,7 @@ allprojects {
         maven {
             url "http://maven.oa.com/nexus/content/repositories/jcenter/"
         }
+        google()
     }
 }
 
