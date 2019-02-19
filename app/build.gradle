@@ -77,6 +77,8 @@ dependencies {
     //MultiDex
     implementation "com.android.support:multidex:${rootProject.multidexVersion}"
 
+    implementation "com.alibaba:fastjson:${rootProject.fastJsonVersion}"
+
 //    debugImplementation 'com.facebook.flipper:flipper:0.14.1'
 //    debugImplementation 'com.facebook.soloader:soloader:0.5.1'
 //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
