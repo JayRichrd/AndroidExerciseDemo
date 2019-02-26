@@ -8,6 +8,7 @@ import com.facebook.drawee.backends.pipeline.DraweeConfig
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilderSupplier
 import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerFactory
+import maven.cain.tencent.com.mavenlibdemo.Test
 
 class MyApplication : Application() {
     override fun onCreate() {
@@ -22,6 +23,7 @@ class MyApplication : Application() {
         QGameDraweeView.Companion.initialize(PipelineDraweeControllerBuilderSupplier(this, draweeConfig))
         val maxMemory = Runtime.getRuntime().maxMemory() / 1024
         Log.i("MyApplication","Max memory is = " + maxMemory + "k")
+        val test = Test()
     }
 
     override fun attachBaseContext(base: Context?) {

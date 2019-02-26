@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/gift_combo_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:padding="0dp">
+    <cain.tencent.com.androidexercisedemo.dialog.GiftComboView
+        android:id="@+id/gift_combo_btn"
+        android:layout_width="190dp"
+        android:layout_height="190dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@color/trans"/>
+</RelativeLayout>
