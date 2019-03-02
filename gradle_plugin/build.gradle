@@ -1,0 +1,24 @@
+apply plugin: 'java-library'
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+uploadArchives{
+    // 将本地目录作为maven仓库
+    repositories{
+        mavenDeployer {
+            repository(url: uri('../repo'))
+        }
+    }
+}
+
+group = "com.tencent.cain"
+version = "1.0"
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compile gradleApi()
+}
+
+
+sourceCompatibility = "7"
+targetCompatibility = "7"

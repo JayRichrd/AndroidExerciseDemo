@@ -1,3 +1,13 @@
+class HelloWorldPlugin implements Plugin<Project> {
+
+    @Override
+    void apply(Project target) {
+        println "Hello World"
+    }
+}
+
+apply plugin: HelloWorldPlugin
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
