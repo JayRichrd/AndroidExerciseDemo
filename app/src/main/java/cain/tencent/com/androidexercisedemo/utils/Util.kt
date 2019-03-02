@@ -2,7 +2,9 @@
 
 package cain.tencent.com.androidexercisedemo.utils
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.widget.Toast
 
 /**
@@ -28,4 +30,9 @@ fun showShortToast(contex: Context, content: String) {
         shortToast?.setText(content)
     }
     shortToast?.show()
+}
+
+inline fun <reified T : Activity> Context.startActivity() {
+    val intent = Intent(this, T::class.java)
+    startActivity(intent)
 }

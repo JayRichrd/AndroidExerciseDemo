@@ -17,6 +17,7 @@ import cain.tencent.com.androidexercisedemo.bitmap.FrescoCacheActivity
 import cain.tencent.com.androidexercisedemo.bitmap.WebPCacheActivity
 import cain.tencent.com.androidexercisedemo.cache.CacheActivity
 import cain.tencent.com.androidexercisedemo.databinding.ActivityMainBinding
+import cain.tencent.com.androidexercisedemo.utils.startActivity
 
 @SuppressLint("ActivityRouterAnnotationDetector")
 class MyMainActivity : AppCompatActivity(), View.OnClickListener {
@@ -64,7 +65,7 @@ class MyMainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.btn_fresco -> {
-                startActivity(Intent(this, FrescoActivity::class.java))
+                startActivity<FrescoActivity>()
             }
             R.id.btn_thread -> {
                 startThread()
