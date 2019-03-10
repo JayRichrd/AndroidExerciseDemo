@@ -109,6 +109,17 @@
                 android:layout_height="wrap_content"
                 android:text="旋转图像使用Demo" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="转码前的源文件地址(.wav)：" />
+
+            <EditText
+                android:id="@+id/et_source_path"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="输入源文件地址" />
+
         </LinearLayout>
     </ScrollView>
 

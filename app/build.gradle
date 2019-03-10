@@ -32,7 +32,8 @@ android {
 
         externalNativeBuild {
             cmake {
-                cppFlags ""
+                cppFlags "-frtti -fexceptions"
+                cFlags "-DSTDC_HEADERS"
             }
         }
         ndk{

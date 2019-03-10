@@ -8,7 +8,6 @@ import android.util.Log
 import com.facebook.drawee.backends.pipeline.DraweeConfig
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilderSupplier
-import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerFactory
 
 class MyApplication : Application() {
     @SuppressLint("HardcodedStringDetector")
@@ -23,10 +22,10 @@ class MyApplication : Application() {
         QGameSimpleDraweeView.initialize(PipelineDraweeControllerBuilderSupplier(this, draweeConfig))
         QGameDraweeView.Companion.initialize(PipelineDraweeControllerBuilderSupplier(this, draweeConfig))
         val maxMemory = Runtime.getRuntime().maxMemory() / 1024
-        Log.i("MyApplication","Max memory is = " + maxMemory + "k")
         Log.i("MyApplication", "Max memory is = " + maxMemory + "k")
         val ndkBridge = NDKBridge()
         Log.d("NDK", "从c++层获取的数据：${ndkBridge.str}")
+        Log.d("NDK", "lame版本：${ndkBridge.lameVersion}")
     }
 
     override fun attachBaseContext(base: Context?) {

@@ -8,4 +8,10 @@ public class NDKBridge {
 
     // 实现native方法
     public native String getStr();
+
+    // 获取lame版本号
+    public native String getLameVersion();
+
+    // 将wav文件转换成mp3
+    public native void wav2Mp3(String wav,String map3);
 }
