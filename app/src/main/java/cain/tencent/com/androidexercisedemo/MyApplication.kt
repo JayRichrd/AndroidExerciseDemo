@@ -9,20 +9,23 @@ import com.facebook.drawee.backends.pipeline.DraweeConfig
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilderSupplier
 import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerFactory
+import maven.cain.tencent.com.mavenlibdemo.Test
 
 class MyApplication : Application() {
     @SuppressLint("HardcodedStringDetector")
     override fun onCreate() {
         super.onCreate()
         val builder = DraweeConfig.newBuilder()
-//        builder.setDrawDebugOverlay(true)
+        builder.setDrawDebugOverlay(true)
+//        builder.setPipelineDraweeControllerFactory(PipelineDraweeControllerFactory())
         val draweeConfig = builder.build()
 
-        builder.setPipelineDraweeControllerFactory(PipelineDraweeControllerFactory())
         Fresco.initialize(this, null, draweeConfig)
         QGameSimpleDraweeView.initialize(PipelineDraweeControllerBuilderSupplier(this, draweeConfig))
         QGameDraweeView.Companion.initialize(PipelineDraweeControllerBuilderSupplier(this, draweeConfig))
         val maxMemory = Runtime.getRuntime().maxMemory() / 1024
+        Log.i("MyApplication","Max memory is = " + maxMemory + "k")
+        val test = Test()
         Log.i("MyApplication", "Max memory is = " + maxMemory + "k")
         val ndkBridge = NDKBridge()
         Log.d("NDK", "从c++层获取的数据：${ndkBridge.str}")

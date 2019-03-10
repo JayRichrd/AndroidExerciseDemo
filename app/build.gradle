@@ -1,13 +1,16 @@
-class HelloWorldPlugin implements Plugin<Project> {
+//gradle测试
+//class HelloWorldPlugin implements Plugin<Project> {
+//
+//    @Override
+//    void apply(Project target) {
+//        println "Hello World"
+//    }
+//}
+//
+//apply plugin: HelloWorldPlugin
 
-    @Override
-    void apply(Project target) {
-        println "Hello World"
-    }
-}
 
-apply plugin: HelloWorldPlugin
-
+apply plugin: 'com.cain.testplugin'
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -101,6 +104,16 @@ dependencies {
 
     //MultiDex
     implementation "com.android.support:multidex:${rootProject.multidexVersion}"
+
+    implementation "com.alibaba:fastjson:${rootProject.fastJsonVersion}"
+
+    implementation 'com.cain.android:AndroidSafeCallback:1.0.1'
+
+//    debugImplementation 'com.facebook.flipper:flipper:0.14.1'
+//    debugImplementation 'com.facebook.soloader:soloader:0.5.1'
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
+//    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
+//    implementation 'com.squareup.okhttp3:okhttp:3.6.0'
 
     //testCompile 'junit:junit:4.12'
     //androidTestCompile 'com.android.support.test:runner:1.0.1'

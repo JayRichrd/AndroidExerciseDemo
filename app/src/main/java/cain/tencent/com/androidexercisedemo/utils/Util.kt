@@ -32,6 +32,8 @@ fun showShortToast(contex: Context, content: String) {
     shortToast?.show()
 }
 
+
+
 inline fun <reified T : Activity> Context.startActivity() {
     val intent = Intent(this, T::class.java)
     startActivity(intent)

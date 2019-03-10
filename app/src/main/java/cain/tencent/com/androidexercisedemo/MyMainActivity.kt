@@ -11,12 +11,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import cain.tencent.com.androidexercisedemo.animator.AnimatorActivity
-import cain.tencent.com.androidexercisedemo.bitmap.BitmapActivity
-import cain.tencent.com.androidexercisedemo.bitmap.FrescoActivity
-import cain.tencent.com.androidexercisedemo.bitmap.FrescoCacheActivity
-import cain.tencent.com.androidexercisedemo.bitmap.WebPCacheActivity
+import cain.tencent.com.androidexercisedemo.bitmap.*
 import cain.tencent.com.androidexercisedemo.cache.CacheActivity
 import cain.tencent.com.androidexercisedemo.databinding.ActivityMainBinding
+import com.alibaba.fastjson.JSON
+import java.net.URLDecoder
 import cain.tencent.com.androidexercisedemo.utils.startActivity
 
 @SuppressLint("ActivityRouterAnnotationDetector")
@@ -41,6 +40,14 @@ class MyMainActivity : AppCompatActivity(), View.OnClickListener {
         binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_main, null, false)
         initView()
         setContentView(binding.root)
+        val urlStr = "%7b%22hv%5fdirection%22%3a0%2c%22provider%22%3a0%2c%22player%5ftype%22%3a0%2c%22play%5furl%22%3a%22%22%2c%22h265%5fplay%5furl%22%3a%22%22%2c%22channel%5fid%22%3a%22%22%2c%22source%22%3a%22%22%2c%22h265%5fdecode%5ftype%22%3a0%2c%22use%5fp2p%22%3afalse%2c%22live%5froom%5fstyle%22%3a0%7d"
+        val urlTarget = URLDecoder.decode(urlStr, "utf-8")
+        Log.d(TAG, "urlTarget: $urlTarget")
+        val prePlayInfo = JSON.parseObject(urlTarget.trim())
+        Log.d(TAG, "prePlayInfo: $prePlayInfo")
+        if (prePlayInfo.containsKey("live_room_style")){
+            Log.d(TAG,"live_room_style: ${prePlayInfo.getIntValue("live_room_style")}")
+        }
     }
 
     private fun initView() {
@@ -59,6 +66,7 @@ class MyMainActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnFrescoCache.setOnClickListener(this)
         binding.btnFrescoWebpCache.setOnClickListener(this)
         binding.btnActionBar.setOnClickListener(this)
+        binding.btnRotate.setOnClickListener(this)
     }
 
     @SuppressLint("HardcodedStringDetector")
@@ -113,6 +121,9 @@ class MyMainActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.btn_action_bar -> {
                 startActivity(Intent(this, ComboActivity::class.java))
+            }
+            R.id.btn_rotate -> {
+                startActivity(Intent(this, RotateActivity::class.java))
             }
             else -> {
 

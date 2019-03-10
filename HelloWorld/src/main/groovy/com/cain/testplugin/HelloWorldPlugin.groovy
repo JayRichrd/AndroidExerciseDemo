@@ -1,4 +1,4 @@
-package groovy.com.tencent.cain.gradle_plugin
+package com.cain.testplugin
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -7,6 +7,6 @@ class HelloWorldPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project target) {
-        println "Hello World"
+        println "Hello World, I am from gradle plugin"
     }
 }

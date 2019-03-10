@@ -83,16 +83,16 @@
                 android:layout_height="wrap_content"
                 android:text="查询缓存" />
 
-            <!--<cain.tencent.com.androidexercisedemo.QGameSimpleDraweeView-->
-            <!--android:id="@+id/qgsdv_view2"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="100dp"-->
-            <!--android:layout_gravity="center_horizontal"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--app:actualImageScaleType="fitXY"-->
-            <!--app:qgSdvImgResource="@drawable/top_video_icon"-->
-            <!--app:qgSdvResizeHeight="100dp"-->
-            <!--app:qgSdvResizeWidth="300dp" />-->
+            <cain.tencent.com.androidexercisedemo.QGameSimpleDraweeView
+            android:id="@+id/qgsdv_view2"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            app:actualImageScaleType="fitXY"
+            app:qgSdvImgResource="@drawable/top_video_icon"
+            app:qgSdvResizeHeight="100dp"
+            app:qgSdvResizeWidth="300dp" />
         </LinearLayout>
     </ScrollView>
 

@@ -1,1 +1,1 @@
-include ':app', ':lintrules', ':lintrulsaar', ':gradle_plugin'
+include ':app', ':lintrules', ':lintrulsaar', ':HelloWorld'
