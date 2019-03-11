@@ -120,6 +120,23 @@
                 android:layout_height="wrap_content"
                 android:hint="输入源文件地址" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="转码后的mp3文件地址(.mp3)：" />
+
+            <EditText
+                android:id="@+id/et_target_path"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="输入目标文件地址" />
+
+            <Button
+                android:id="@+id/btn_convert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="wav->mp3" />
+
         </LinearLayout>
     </ScrollView>
 

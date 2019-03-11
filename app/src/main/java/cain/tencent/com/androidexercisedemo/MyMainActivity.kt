@@ -7,9 +7,12 @@ import android.databinding.DataBindingUtil
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
 import cain.tencent.com.androidexercisedemo.animator.AnimatorActivity
 import cain.tencent.com.androidexercisedemo.bitmap.*
 import cain.tencent.com.androidexercisedemo.cache.CacheActivity
@@ -17,6 +20,7 @@ import cain.tencent.com.androidexercisedemo.databinding.ActivityMainBinding
 import com.alibaba.fastjson.JSON
 import java.net.URLDecoder
 import cain.tencent.com.androidexercisedemo.utils.startActivity
+import java.io.File
 
 @SuppressLint("ActivityRouterAnnotationDetector")
 class MyMainActivity : AppCompatActivity(), View.OnClickListener {
@@ -24,6 +28,8 @@ class MyMainActivity : AppCompatActivity(), View.OnClickListener {
 
     companion object {
         const val TAG = "MyMainActivity"
+        const val source_path = "/test.wav"
+        const val target_path = "/test.mp3"
     }
 
     override fun onTrimMemory(level: Int) {
@@ -45,8 +51,8 @@ class MyMainActivity : AppCompatActivity(), View.OnClickListener {
         Log.d(TAG, "urlTarget: $urlTarget")
         val prePlayInfo = JSON.parseObject(urlTarget.trim())
         Log.d(TAG, "prePlayInfo: $prePlayInfo")
-        if (prePlayInfo.containsKey("live_room_style")){
-            Log.d(TAG,"live_room_style: ${prePlayInfo.getIntValue("live_room_style")}")
+        if (prePlayInfo.containsKey("live_room_style")) {
+            Log.d(TAG, "live_room_style: ${prePlayInfo.getIntValue("live_room_style")}")
         }
     }
 
@@ -67,6 +73,9 @@ class MyMainActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnFrescoWebpCache.setOnClickListener(this)
         binding.btnActionBar.setOnClickListener(this)
         binding.btnRotate.setOnClickListener(this)
+        binding.btnConvert.setOnClickListener(this)
+        binding.etSourcePath.setText(Environment.getExternalStorageDirectory().absolutePath + source_path)
+        binding.etTargetPath.setText(Environment.getExternalStorageDirectory().absolutePath + target_path)
     }
 
     @SuppressLint("HardcodedStringDetector")
@@ -125,9 +134,33 @@ class MyMainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btn_rotate -> {
                 startActivity(Intent(this, RotateActivity::class.java))
             }
+            R.id.btn_convert -> {
+                wav2mp3()
+            }
             else -> {
 
             }
+        }
+    }
+
+    private fun wav2mp3() {
+        if (!TextUtils.isEmpty(binding.etSourcePath.text) && !TextUtils.isEmpty(binding.etTargetPath.text)) {
+            Thread({
+                // Wav文件头
+                val wavFileHeader = WavFileReader()
+                if (wavFileHeader.openFile(binding.etSourcePath.text.toString())) {
+                    val wavFileHeader = wavFileHeader.getmWavFileHeader()
+                    val duration = System.currentTimeMillis();
+                    NDKBridge().wav2Mp3(binding.etSourcePath.text.toString(), binding.etTargetPath.text.toString(), wavFileHeader.getmSampleRate())
+                    Log.d(TAG, "Wav to mp3 duration: " + (System.currentTimeMillis() - duration))
+                }
+                val mp3File = File(binding.etTargetPath.text.toString())
+                if (mp3File.exists()) {
+                    runOnUiThread({
+                        Toast.makeText(MyMainActivity@ this, "转码成功" + mp3File.absolutePath, Toast.LENGTH_SHORT).show()
+                    })
+                }
+            }).start()
         }
     }
 

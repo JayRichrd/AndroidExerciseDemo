@@ -13,5 +13,5 @@ public class NDKBridge {
     public native String getLameVersion();
 
     // 将wav文件转换成mp3
-    public native void wav2Mp3(String wav,String map3);
+    public native void wav2Mp3(String wav, String map3, int inSamplerate);
 }
