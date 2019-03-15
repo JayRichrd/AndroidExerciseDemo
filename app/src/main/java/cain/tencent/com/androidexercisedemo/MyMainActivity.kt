@@ -145,7 +145,7 @@ class MyMainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun wav2mp3() {
         if (!TextUtils.isEmpty(binding.etSourcePath.text) && !TextUtils.isEmpty(binding.etTargetPath.text)) {
-            Thread({
+            Thread {
                 // Wav文件头
                 val wavFileHeader = WavFileReader()
                 if (wavFileHeader.openFile(binding.etSourcePath.text.toString())) {
@@ -156,11 +156,11 @@ class MyMainActivity : AppCompatActivity(), View.OnClickListener {
                 }
                 val mp3File = File(binding.etTargetPath.text.toString())
                 if (mp3File.exists()) {
-                    runOnUiThread({
+                    runOnUiThread {
                         Toast.makeText(MyMainActivity@ this, "转码成功" + mp3File.absolutePath, Toast.LENGTH_SHORT).show()
-                    })
+                    }
                 }
-            }).start()
+            }.start()
         }
     }
 
