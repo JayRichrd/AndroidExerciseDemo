@@ -54,3 +54,17 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+// 添加默认任务
+defaultTasks("clean", "assembleDebug", "installDebug")
+
+task task1 << {
+    println 'task1'
+}
+
+task task2 << {
+    println 'task2'
+}
+
+//task2.mustRunAfter task1
+task2.dependsOn(task1)

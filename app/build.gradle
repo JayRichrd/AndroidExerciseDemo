@@ -9,7 +9,6 @@
 //
 //apply plugin: HelloWorldPlugin
 
-
 //apply plugin: 'com.cain.testplugin'
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -36,17 +35,36 @@ android {
                 cFlags "-DSTDC_HEADERS"
             }
         }
-        ndk{
+        ndk {
             abiFilters "armeabi-v7a"
+        }
+    }
+
+    signingConfigs {
+        release {
+            android.signingConfigs.release.storePassword = 'jiangyu12315'
+            android.signingConfigs.release.keyPassword = 'jiangyu12315'
         }
     }
 
     buildTypes {
         release {
             //shrinkResources true
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        //debug版
+        debug {
+            minifyEnabled false
+            zipAlignEnabled false
+            debuggable true
+        }
+
+//        staging {
+//            applicationIdSuffix ".cain"
+//            versionNameSuffix "-staging"
+//        }
     }
 
     sourceSets {
@@ -64,6 +82,26 @@ android {
         }
     }
 }
+
+android.applicationVariants.all { variant ->
+//    variant.outputs.all { output ->
+//        def file = output.outputFile
+////        outputFileName = "${variant.name}-${variant.versionName}.apk"
+//        outputFileName = new File(file.parent, file.name.replace(".apk", "-${variant.versionName}.apk")).getName()
+//    }
+    if (variant.install) {
+        tasks.create(name: "run${variant.name.capitalize()}", dependsOn: variant.install) {
+            description "Install the ${variant.description} and runs the main launcher activity"
+            doFirst {
+                exec {
+                    executable = 'adb'
+                    args = ['shell', 'am', 'start', '-n', "${variant.applicationId}/.MyMainActivity"]
+                }
+            }
+        }
+    }
+}
+
 
 kapt {
     generateStubs = true
@@ -119,4 +157,25 @@ dependencies {
     //testCompile 'junit:junit:4.12'
     //androidTestCompile 'com.android.support.test:runner:1.0.1'
     //androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
+}
+
+task getDebugPassWord << {
+    println '--------------------------------getDebugPassWord start--------------------------------'
+    def passWord = ''
+    if (rootProject.file('private.properties').exists()) {
+        Properties properties = new Properties()
+        properties.load(rootProject.file('private.properties').newDataInputStream())
+        passWord = properties.getProperty('debug.password')
+    }
+    if (!passWord?.trim()) {
+        passWord = new String(System.console().readPassword("\n What's the secret password? "))
+    }
+    println "passWord = $passWord"
+    println '--------------------------------getDebugPassWord end----------------------------------'
+}
+
+tasks.whenTaskAdded { theTask ->
+    if (theTask.name.equals("packageDebug")) {
+        theTask.dependsOn "getDebugPassWord"
+    }
 }
