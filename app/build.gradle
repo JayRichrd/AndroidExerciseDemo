@@ -139,7 +139,7 @@ dependencies {
     //dataBinding
     //kapt "com.android.databinding:compiler:${rootProject.android_plugin_version}"
 
-    implementation 'com.tencent.qgame:widget:1.0.9'
+//    implementation 'com.tencent.qgame:widget:1.0.9'
 
     //MultiDex
     implementation "com.android.support:multidex:${rootProject.multidexVersion}"
