@@ -81,6 +81,10 @@ android {
             path file('CMakeLists.txt')
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 android.applicationVariants.all { variant ->
