@@ -1,65 +1,33 @@
 language: android
+jdk: oraclejdk8
+sudo: true
+
+os:
+  - linux
+addons:
+  apt_packages:
+    - pandoc
+before_install:
+  - mkdir -p $ANDROID_HOME/licenses
+  - echo "8933bad161af4178b1185d1a37fbf41ea5269c55" > $ANDROID_HOME/licenses/android-sdk-license
+  - echo "d56f5187479451eabf01fb78af6dfcb131a6481e" >> $ANDROID_HOME/licenses/android-sdk-license
+install:
+  - echo y | sdkmanager "ndk-bundle"
+  - echo y | sdkmanager "cmake;3.6.4111459"
+  - echo y | sdkmanager "lldb;3.1"
 android:
   components:
-    # Uncomment the lines below if you want to
-    # use the latest revision of Android SDK Tools
-    # - tools
-    # - platform-tools
+    - tools
+    - platform-tools
+    - tools
+    - build-tools-26.0.0
+    - android-26
+  licenses:
+    - android-sdk-preview-license-.+
+    - android-sdk-license-.+
+    - google-gdk-license-.+
 
-    # The BuildTools version used by your project
-    - build-tools-28.0.3
-
-    # The SDK version used to compile your project
-    - android-28
-
-    # Additional components
-    - extra-google-m2repository
-    - extra-android-m2repository
-
-    # Specify at least one system image,
-    # if you need to run emulator(s) during your tests
-    - sys-img-x86-android-28
-    - sys-img-armeabi-v7a-android-28
-
-    - add-on
-    - extra
-
-  before_install:
-    - wget https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip
-    - unzip -qq android-ndk-r16b-linux-x86_64.zip
-    - export ANDROID_NDK_HOME=`pwd`/android-ndk-r16b
-    - export LOCAL_ANDROID_NDK_HOME="$ANDROID_NDK_HOME"
-    - export LOCAL_ANDROID_NDK_HOST_PLATFORM="linux-x86_64"
-    - export PATH=$PATH:${ANDROID_NDK_HOME}
-    - env
-#    - sudo chmod +x gradlew
-#    - wget https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip
-#    - unzip android-ndk-r16b-linux-x86_64.zip -d $HOME
-#    - export ANDROID_NDK_HOME=$HOME/android-ndk-r16b
-#    - export PATH=$PATH:$ANDROID_NDK_HOME
-#    - mkdir "$ANDROID_HOME/licenses" || true
-#    - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
-#    - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
-
-
-#  install:
-#    - echo y | sdkmanager "ndk-bundle"
-#    - echo y | sdkmanager "cmake;3.6.4111459"
-#    - echo y | sdkmanager --channel=3 --channel=1 "cmake;3.10.2.4988404"
-#    - echo y | sdkmanager "lldb;3.1"
-
-#  before_script:
-#    - export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle
-
-  script:
-      # 生成 APK
-    - ./gradlew assembleRelease
-
-  before_cache:
-    - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
-    - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-
-  cache:
-    directories:
-      - $HOME/.gradle/caches/
-      - $HOME/.gradle/wrapper/
+script:
+  - ./gradlew clean check --profile
+  - pandoc `ls -1rt build/reports/profile/profile-*.html | tail -n1` -t plain
+  - ./gradlew dependencyUpdates
