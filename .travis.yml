@@ -21,6 +21,9 @@ android:
     - sys-img-x86-android-28
     - sys-img-armeabi-v7a-android-28
 
+    - add-on
+    - extra
+
 #  before_install:
 #    - sudo chmod +x gradlew
 #    - wget https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip
@@ -30,6 +33,13 @@ android:
 #    - mkdir "$ANDROID_HOME/licenses" || true
 #    - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
 #    - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+  - wget https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip
+  - unzip -qq android-ndk-r16b-linux-x86_64.zip
+  - export ANDROID_NDK_HOME=`pwd`/android-ndk-r16b
+  - export LOCAL_ANDROID_NDK_HOME="$ANDROID_NDK_HOME"
+  - export LOCAL_ANDROID_NDK_HOST_PLATFORM="linux-x86_64"
+  - export PATH=$PATH:${ANDROID_NDK_HOME}
+  - env
 
   install:
     - echo y | sdkmanager "ndk-bundle"
