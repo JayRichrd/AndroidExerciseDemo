@@ -4,8 +4,9 @@ apply plugin: 'maven'
 apply plugin: 'com.novoda.bintray-release' //Bintray插件
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    compile gradleApi()
-    compile localGroovy()
+    implementation gradleApi()
+    implementation localGroovy()
+    api "com.android.tools.build:gradle:$gradle_version"
 }
 
 group = rootProject.GROUP
