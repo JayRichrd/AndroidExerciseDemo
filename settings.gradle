@@ -1,1 +1,1 @@
-include ':app', ':lintrules', ':lintrulsaar', ':HelloWorld'
+include ':app', ':lintrules', ':lintrulsaar', ':LifeCycle_Plugin'

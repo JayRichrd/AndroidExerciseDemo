@@ -9,11 +9,11 @@
 //
 //apply plugin: HelloWorldPlugin
 
-//apply plugin: 'com.cain.testplugin'
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+//apply plugin: 'com.tencent.qgame.cain.gradle'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -88,11 +88,6 @@ android {
 }
 
 android.applicationVariants.all { variant ->
-//    variant.outputs.all { output ->
-//        def file = output.outputFile
-////        outputFileName = "${variant.name}-${variant.versionName}.apk"
-//        outputFileName = new File(file.parent, file.name.replace(".apk", "-${variant.versionName}.apk")).getName()
-//    }
     if (variant.install) {
         tasks.create(name: "run${variant.name.capitalize()}", dependsOn: variant.install) {
             description "Install the ${variant.description} and runs the main launcher activity"
@@ -143,24 +138,11 @@ dependencies {
     //dataBinding
     //kapt "com.android.databinding:compiler:${rootProject.android_plugin_version}"
 
-//    implementation 'com.tencent.qgame:widget:1.0.9'
-
     //MultiDex
     implementation "com.android.support:multidex:${rootProject.multidexVersion}"
 
     implementation "com.alibaba:fastjson:${rootProject.fastJsonVersion}"
 
-//    implementation 'com.cain.android:AndroidSafeCallback:1.0.1'
-
-//    debugImplementation 'com.facebook.flipper:flipper:0.14.1'
-//    debugImplementation 'com.facebook.soloader:soloader:0.5.1'
-//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
-//    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
-//    implementation 'com.squareup.okhttp3:okhttp:3.6.0'
-
-    //testCompile 'junit:junit:4.12'
-    //androidTestCompile 'com.android.support.test:runner:1.0.1'
-    //androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
 }
 
 task getDebugPassWord << {
