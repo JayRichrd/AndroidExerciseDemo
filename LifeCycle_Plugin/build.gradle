@@ -1,23 +1,41 @@
 apply plugin: 'java-library'
 apply plugin: 'groovy'
 apply plugin: 'maven'
+apply plugin: 'com.novoda.bintray-release' //Bintray插件
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     compile gradleApi()
     compile localGroovy()
 }
 
-group = "com.tencent.qgame.cain"
-version = "0.0.1"
+group = rootProject.GROUP
+version = rootProject.LifeCyclePluginVersion
 uploadArchives {
     repositories {
         mavenDeployer {
+            def repoUrl = "http://maven.oa.com/nexus/content/repositories/thirdparty-snapshots"
+            def userName = 'rdm'
+            def passWord = 'rdm'
             // 部署到本地
-             repository(url: uri('../plugins/life-cycle-plugin'))
+//             repository(url: uri('../plugins/life-cycle-plugin'))
             // 部署到服务器
-//            repository(url: "http://maven.oa.com/nexus/content/repositories/thirdparty-snapshots")
+//            repository(url: repoUrl) {
+//                authentication(userName: userName, password: passWord)
+//                pom.version = rootProject.LifeCyclePluginVersion
+//                pom.groupId = rootProject.GROUP
+//            }
         }
     }
+}
+
+publish{
+    // Bintray 账号名
+    userOrg = 'richardjay'
+    groupId = rootProject.GROUP
+    artifactId = 'LifeCycle_Plugin'
+    publishVersion = rootProject.LifeCyclePluginVersion
+    desc = "This is a plugin for component lifeCycle."
+    website = "https://github.com/JayRichrd/AndroidExerciseDemo"
 }
 
 sourceCompatibility = "7"
