@@ -1,12 +1,11 @@
-apply plugin: 'java-library'
 apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'com.novoda.bintray-release' //Bintray插件
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation gradleApi()
-    implementation localGroovy()
-    api "com.android.tools.build:gradle:$gradle_version"
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile gradleApi()
+    compile localGroovy()
+    compile "com.android.tools.build:gradle:$gradle_version"
 }
 
 group = rootProject.GROUP
@@ -18,7 +17,7 @@ uploadArchives {
             def userName = 'rdm'
             def passWord = 'rdm'
             // 部署到本地
-//             repository(url: uri('../plugins/life-cycle-plugin'))
+             repository(url: uri('../plugins/life-cycle-plugin'))
             // 部署到服务器
 //            repository(url: repoUrl) {
 //                authentication(userName: userName, password: passWord)
@@ -41,3 +40,6 @@ publish{
 
 sourceCompatibility = "7"
 targetCompatibility = "7"
+
+
+

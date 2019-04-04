@@ -13,7 +13,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-//apply plugin: 'com.tencent.qgame.cain.gradle'
+apply plugin: 'com.tencent.qgame.cain.gradle'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -38,6 +38,7 @@ android {
         ndk {
             abiFilters "armeabi-v7a"
         }
+
     }
 
     signingConfigs {
@@ -85,6 +86,7 @@ android {
     lintOptions {
         abortOnError false
     }
+
 }
 
 android.applicationVariants.all { variant ->
@@ -140,7 +142,7 @@ dependencies {
 
     //MultiDex
     implementation "com.android.support:multidex:${rootProject.multidexVersion}"
-
+    //fastJson
     implementation "com.alibaba:fastjson:${rootProject.fastJsonVersion}"
 
 }
@@ -160,8 +162,8 @@ task getDebugPassWord << {
     println '--------------------------------getDebugPassWord end----------------------------------'
 }
 
-tasks.whenTaskAdded { theTask ->
-    if (theTask.name.equals("packageDebug")) {
-        theTask.dependsOn "getDebugPassWord"
-    }
-}
+//tasks.whenTaskAdded { theTask ->
+//    if (theTask.name.equals("packageDebug")) {
+//        theTask.dependsOn "getDebugPassWord"
+//    }
+//}
