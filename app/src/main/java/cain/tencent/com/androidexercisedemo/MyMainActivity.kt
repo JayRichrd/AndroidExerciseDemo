@@ -17,6 +17,7 @@ import cain.tencent.com.androidexercisedemo.animator.AnimatorActivity
 import cain.tencent.com.androidexercisedemo.bitmap.*
 import cain.tencent.com.androidexercisedemo.cache.CacheActivity
 import cain.tencent.com.androidexercisedemo.databinding.ActivityMainBinding
+import cain.tencent.com.androidexercisedemo.ffmpeg.FFMpegActivity
 import com.alibaba.fastjson.JSON
 import java.net.URLDecoder
 import cain.tencent.com.androidexercisedemo.utils.startActivity
@@ -76,6 +77,7 @@ class MyMainActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnConvert.setOnClickListener(this)
         binding.etSourcePath.setText(Environment.getExternalStorageDirectory().absolutePath + source_path)
         binding.etTargetPath.setText(Environment.getExternalStorageDirectory().absolutePath + target_path)
+        binding.btnFfmpeg.setOnClickListener(this)
     }
 
     @SuppressLint("HardcodedStringDetector")
@@ -133,6 +135,9 @@ class MyMainActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.btn_rotate -> {
                 startActivity(Intent(this, RotateActivity::class.java))
+            }
+            R.id.btn_ffmpeg -> {
+                startActivity(Intent(this, FFMpegActivity::class.java))
             }
             R.id.btn_convert -> {
                 wav2mp3()

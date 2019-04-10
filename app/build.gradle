@@ -30,15 +30,21 @@ android {
         multiDexEnabled true
 
         externalNativeBuild {
+            // -Wno-deprecated-declarations 添加这个保证编译出的很多文件不再报错
             cmake {
-                cppFlags "-frtti -fexceptions"
+                cppFlags "-frtti -fexceptions -Wno-deprecated-declarations"
                 cFlags "-DSTDC_HEADERS"
             }
         }
         ndk {
             abiFilters "armeabi-v7a"
         }
+    }
 
+    externalNativeBuild {
+        cmake {
+            path file('CMakeLists.txt')
+        }
     }
 
     signingConfigs {
@@ -70,18 +76,16 @@ android {
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-        main { jni.srcDirs = ['src/main/jni', 'src/main/cpp/'] }
+        main {
+            jni.srcDirs = ['src/main/jni', 'src/main/cpp/']
+            jniLibs.srcDirs = ['libs']
+        }
     }
 
     dataBinding {
         enabled = true
     }
 
-    externalNativeBuild {
-        cmake {
-            path file('CMakeLists.txt')
-        }
-    }
 
     lintOptions {
         abortOnError false
@@ -167,3 +171,4 @@ task getDebugPassWord << {
 //        theTask.dependsOn "getDebugPassWord"
 //    }
 //}
+

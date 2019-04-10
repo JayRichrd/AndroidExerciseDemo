@@ -40,9 +40,10 @@
         <activity android:name=".bitmap.PhotoWallActivity" />
         <activity android:name=".ComboActivity" />
         <activity android:name=".bitmap.RotateActivity" />
-        <!--<activity-->
-            <!--android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity"-->
-            <!--android:exported="true" />-->
+        <!-- <activity -->
+        <!-- android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity" -->
+        <!-- android:exported="true" /> -->
+        <activity android:name=".ffmpeg.FFMpegActivity"></activity>
     </application>
 
 </manifest>
