@@ -14,7 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import cain.tencent.com.androidexercisedemo.animator.AnimatorActivity
-import cain.tencent.com.androidexercisedemo.audiotrack.AudioTrackActivity
+import cain.tencent.com.androidexercisedemo.audiotrack.AudioActivity
 import cain.tencent.com.androidexercisedemo.bitmap.*
 import cain.tencent.com.androidexercisedemo.cache.CacheActivity
 import cain.tencent.com.androidexercisedemo.databinding.ActivityMainBinding
@@ -142,7 +142,7 @@ class MyMainActivity : AppCompatActivity(), View.OnClickListener {
                 startActivity(Intent(this, FFMpegActivity::class.java))
             }
             R.id.btn_audio_track -> {
-                startActivity(Intent(this, AudioTrackActivity::class.java))
+                startActivity(Intent(this, AudioActivity::class.java))
             }
             R.id.btn_convert -> {
                 wav2mp3()

@@ -18,6 +18,12 @@
                 android:text="录音" />
 
             <Button
+                android:id="@+id/btn_opensl_record"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="录音" />
+
+            <Button
                 android:id="@+id/btn_transform"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -25,6 +31,12 @@
 
             <Button
                 android:id="@+id/btn_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="播放" />
+
+            <Button
+                android:id="@+id/btn_opensl_play"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="播放" />

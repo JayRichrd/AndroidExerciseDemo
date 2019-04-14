@@ -12,7 +12,8 @@ set(distribution_DIR ../../../../libs)
 # 库名称：ndk_test_jni
 # 库类型：SHARED，表示动态库，后缀为.so（如果是STATIC，则表示静态库，后缀为.a）
 # 库源码文件：src/main/jni/ndk_test_jni.cpp
-add_library(ndk_test_jni
+add_library(
+        ndk_test_jni
         SHARED
         src/main/jni/ndk_test_jni.cpp
         src/main/jni/lame/bitstream.c
@@ -94,7 +95,9 @@ include_directories(libs/include)
 
 # 告诉编译器生成ndk_test_jni库需要链接的库
 # native-lib库需要依赖avcodec、avfilter等库
-target_link_libraries(ndk_test_jni
+target_link_libraries(
+        ndk_test_jni
+        OpenSLES
         avcodec
         avfilter
         avformat

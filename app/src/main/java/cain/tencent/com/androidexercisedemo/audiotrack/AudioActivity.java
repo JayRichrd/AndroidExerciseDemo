@@ -34,12 +34,13 @@ import static cain.tencent.com.androidexercisedemo.audiotrack.GlobalConfig.AUDIO
 import static cain.tencent.com.androidexercisedemo.audiotrack.GlobalConfig.CHANNEL_CONFIG;
 import static cain.tencent.com.androidexercisedemo.audiotrack.GlobalConfig.SAMPLE_RATE_INHZ;
 
-public class AudioTrackActivity extends AppCompatActivity implements View.OnClickListener {
+public class AudioActivity extends AppCompatActivity implements View.OnClickListener {
 
     ActivityAudioTrackBinding binding;
     public static final String RECORD_PCM_FILE_NAME = "recored_test.pcm";
+    public static final String RECORD_OPENSL_PCM_FILE_NAME = "record_opensl_test.pcm";
     public static final String RECORD_WAV_FILE_NAME = "recored_test.wav";
-    public static final String TAG = "AudioTrackActivity";
+    public static final String TAG = "AudioActivity";
     private static final int MY_PERMISSIONS_REQUEST = 1001;
 
     private volatile boolean isRecording;
@@ -64,8 +65,10 @@ public class AudioTrackActivity extends AppCompatActivity implements View.OnClic
         binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_audio_track, null, false);
         setContentView(binding.getRoot());
         binding.btnRecord.setOnClickListener(this);
+        binding.btnOpenslRecord.setOnClickListener(this);
         binding.btnTransform.setOnClickListener(this);
         binding.btnPlay.setOnClickListener(this);
+        binding.btnOpenslPlay.setOnClickListener(this);
 
         getPermissions();
     }
@@ -100,6 +103,16 @@ public class AudioTrackActivity extends AppCompatActivity implements View.OnClic
                     stopRecord();
                 }
                 break;
+            case R.id.btn_opensl_record:
+                Button recordOpenslBtn = (Button) v;
+                if (recordOpenslBtn.getText().equals("录音")) {
+                    recordOpenslBtn.setText("停止");
+                    openslRecordAudio();
+                } else {
+                    recordOpenslBtn.setText("录音");
+                    stopOpenslRecord();
+                }
+                break;
             case R.id.btn_transform:
                 transform();
                 break;
@@ -113,7 +126,31 @@ public class AudioTrackActivity extends AppCompatActivity implements View.OnClic
                     stopPlay();
                 }
                 break;
+            case R.id.btn_opensl_play:
+
+                break;
         }
+    }
+
+    private void stopOpenslRecord() {
+        isRecording = false;
+        nativeStopOpenslRecord();
+    }
+
+    private void openslRecordAudio() {
+        if (isRecording){
+            return;
+        }
+        isRecording = true;
+        final File file = new File(getExternalFilesDir(Environment.DIRECTORY_MUSIC), RECORD_OPENSL_PCM_FILE_NAME);
+        if (!file.mkdirs()) {
+            Log.e(TAG, "directory not created!");
+            return;
+        }
+        if (file.exists()) {
+            file.delete();
+        }
+        nativeOpenslRecord(file.getAbsolutePath());
     }
 
     /**
@@ -249,4 +286,7 @@ public class AudioTrackActivity extends AppCompatActivity implements View.OnClic
             }
         },"RecordThread").start();
     }
+
+    native int nativeOpenslRecord(String filePath);
+    native int nativeStopOpenslRecord();
 }

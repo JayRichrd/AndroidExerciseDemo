@@ -3,10 +3,11 @@
 //
 #include <jni.h>
 #include <string>
+#include <android/log.h>
+#include <malloc.h>
+#include <cstdio>
 
 extern "C" {// 必须添加这个，否则会报很多undefined reference错误
-
-#include <cstdio>
 #include "lame/lame.h"
 //封装格式处理
 #include <libavformat/avformat.h>
@@ -18,6 +19,26 @@ extern "C" {// 必须添加这个，否则会报很多undefined reference错误
 //像素处理
 #include <libswscale/swscale.h>
 #include <unistd.h>
+
+#include <SLES/OpenSLES.h>
+#include <SLES/OpenSLES_Android.h>
+
+#define BUFFER_SIZE_IN_SAMPLES 8192
+#define BUFFER_SIZE_IN_BYTES   (2 * BUFFER_SIZE_IN_SAMPLES)
+
+#define LOG_TAG    "opensl-record"
+#define LOGI(...)  __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
+#define LOGE(...)  __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+
+static FILE *gFile = NULL;
+static SLObjectItf engineSL = NULL;
+SLObjectItf recorder_object;
+SLRecordItf recordItf;                        //录制接口
+SLAndroidSimpleBufferQueueItf recorder_buffer_queue; //Buffer接口
+int8_t *pcm_data; //数据缓存区
+
+SLEngineItf CreateRecordSL();
+void bqRecorderCallback(SLAndroidSimpleBufferQueueItf caller, void *pContext);
 
 extern "C"
 JNIEXPORT jstring JNICALL
@@ -301,4 +322,145 @@ Java_cain_tencent_com_androidexercisedemo_ffmpeg_FFMpegActivity_urlProtocolInfo(
     return env->NewStringUTF(info);
 }
 
+extern "C"
+JNIEXPORT jint JNICALL
+Java_cain_tencent_com_androidexercisedemo_audiotrack_AudioActivity_nativeOpenslRecord(
+        JNIEnv *env, jobject instance, jstring filePath_) {
+    SLresult result;
+    const char *filePath = env->GetStringUTFChars(filePath_, 0);
+    // 打开文件
+    gFile = fopen(filePath, "w");
+    if (!gFile) {
+        LOGE("create file fail!");
+        return -1;
+    }
+
+    env->ReleaseStringUTFChars(filePath_, filePath);
+
+    SLDataLocator_IODevice io_device = {
+            SL_DATALOCATOR_IODEVICE,
+            SL_IODEVICE_AUDIOINPUT,
+            SL_DEFAULTDEVICEID_AUDIOINPUT,
+            NULL
+    };
+
+    SLDataSource data_src = {
+            &io_device,
+            NULL
+    };
+
+    SLDataLocator_AndroidSimpleBufferQueue buffer_queue = {
+            SL_DATALOCATOR_ANDROIDSIMPLEBUFFERQUEUE,
+            2
+    };
+
+    SLDataFormat_PCM format_pcm = {
+            SL_DATAFORMAT_PCM,
+            1,
+            SL_SAMPLINGRATE_44_1,
+            SL_PCMSAMPLEFORMAT_FIXED_16,
+            SL_PCMSAMPLEFORMAT_FIXED_16,
+            SL_SPEAKER_FRONT_LEFT,
+            SL_BYTEORDER_LITTLEENDIAN
+    };
+
+    SLDataSink audio_sink = {
+            &buffer_queue,
+            &format_pcm
+    };
+
+    SLEngineItf eng = CreateRecordSL();
+    if (!eng) {
+        return -1;
+    }
+
+    const SLInterfaceID id[1] = {SL_IID_ANDROIDSIMPLEBUFFERQUEUE};
+    const SLboolean req[1] = {SL_BOOLEAN_TRUE};
+
+    result = (*eng)->CreateAudioRecorder(
+            eng,
+            &recorder_object,
+            &data_src,
+            &audio_sink,
+            1,
+            id,
+            req);
+    if (result != SL_RESULT_SUCCESS) {
+        return -1;
+    }
+
+    result = (*recorder_object)->Realize(recorder_object, SL_BOOLEAN_FALSE);
+    if (result != SL_RESULT_SUCCESS) {
+        return -1;
+    }
+
+    result = (*recorder_object)->GetInterface(recorder_object, SL_IID_RECORD, &recordItf);
+    if (result != SL_RESULT_SUCCESS) {
+        return -1;
+    }
+
+    result = (*recorder_object)->GetInterface(recorder_object, SL_IID_ANDROIDSIMPLEBUFFERQUEUE,
+                                              &recorder_buffer_queue);
+    if (result != SL_RESULT_SUCCESS) {
+        return -1;
+    }
+
+    pcm_data = static_cast<int8_t *>(malloc(BUFFER_SIZE_IN_BYTES));
+
+    result = (*recorder_buffer_queue)->RegisterCallback(recorder_buffer_queue, bqRecorderCallback,
+                                                        NULL);
+    if (result != SL_RESULT_SUCCESS) {
+        return -1;
+    }
+
+    result = (*recordItf)->SetRecordState(recordItf, SL_RECORDSTATE_RECORDING);
+    if (result != SL_RESULT_SUCCESS) {
+        return -1;
+    }
+
+    result = (*recorder_buffer_queue)->Enqueue(recorder_buffer_queue, pcm_data,
+                                               BUFFER_SIZE_IN_SAMPLES);
+    if (result != SL_RESULT_SUCCESS) {
+        return -1;
+    }
+    return 0;
 }
+
+//数据回调函数
+void bqRecorderCallback(SLAndroidSimpleBufferQueueItf caller, void *pContext) {
+
+    fwrite(pcm_data, BUFFER_SIZE_IN_BYTES, 1, gFile);
+    //取完数据，需要调用Enqueue触发下一次数据回调
+    (*caller)->Enqueue(caller, pcm_data, BUFFER_SIZE_IN_BYTES);
+}
+
+SLEngineItf CreateRecordSL() {
+    SLresult result;
+    SLEngineItf eng;
+
+    result = slCreateEngine(&engineSL, 0, 0, 0, 0, 0);
+    if (result != SL_RESULT_SUCCESS) return NULL;
+
+    result = (*engineSL)->Realize(engineSL, SL_BOOLEAN_FALSE);
+    if (result != SL_RESULT_SUCCESS) return NULL;
+
+    result = (*engineSL)->GetInterface(engineSL, SL_IID_ENGINE, &eng);
+    if (result != SL_RESULT_SUCCESS) return NULL;
+
+    return eng;
+}
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_cain_tencent_com_androidexercisedemo_audiotrack_AudioActivity_nativeStopOpenslRecord(JNIEnv *env, jobject instance) {
+    if (recordItf != NULL) {
+        (*recordItf)->SetRecordState(recordItf, SL_RECORDSTATE_STOPPED);
+        return 0;
+    } else {
+        return -1;
+    }
+}
+
+}
+
+
