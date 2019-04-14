@@ -18,6 +18,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".audiotrack.AudioTrackActivity"></activity>
         <activity android:name=".MyMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,11 +40,10 @@
         <activity android:name=".bitmap.WebPCacheActivity" />
         <activity android:name=".bitmap.PhotoWallActivity" />
         <activity android:name=".ComboActivity" />
-        <activity android:name=".bitmap.RotateActivity" />
-        <!-- <activity -->
+        <activity android:name=".bitmap.RotateActivity" /> <!-- <activity -->
         <!-- android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity" -->
         <!-- android:exported="true" /> -->
-        <activity android:name=".ffmpeg.FFMpegActivity"></activity>
+        <activity android:name=".ffmpeg.FFMpegActivity" />
     </application>
 
 </manifest>

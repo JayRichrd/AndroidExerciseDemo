@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import cain.tencent.com.androidexercisedemo.animator.AnimatorActivity
+import cain.tencent.com.androidexercisedemo.audiotrack.AudioTrackActivity
 import cain.tencent.com.androidexercisedemo.bitmap.*
 import cain.tencent.com.androidexercisedemo.cache.CacheActivity
 import cain.tencent.com.androidexercisedemo.databinding.ActivityMainBinding
@@ -78,6 +79,7 @@ class MyMainActivity : AppCompatActivity(), View.OnClickListener {
         binding.etSourcePath.setText(Environment.getExternalStorageDirectory().absolutePath + source_path)
         binding.etTargetPath.setText(Environment.getExternalStorageDirectory().absolutePath + target_path)
         binding.btnFfmpeg.setOnClickListener(this)
+        binding.btnAudioTrack.setOnClickListener(this)
     }
 
     @SuppressLint("HardcodedStringDetector")
@@ -138,6 +140,9 @@ class MyMainActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.btn_ffmpeg -> {
                 startActivity(Intent(this, FFMpegActivity::class.java))
+            }
+            R.id.btn_audio_track -> {
+                startActivity(Intent(this, AudioTrackActivity::class.java))
             }
             R.id.btn_convert -> {
                 wav2mp3()
