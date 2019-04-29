@@ -24,36 +24,34 @@ buildscript {
         maven {
             url rootProject.file('plugins/life-cycle-plugin')
         }
-        google()
-        jcenter()
-//        maven {
-//            url "http://maven.oa.com/nexus/content/groups/androidbuild"
-//        }
-//        maven {
-//            url "http://maven.oa.com/nexus/content/repositories/jcenter/"
-//        }
-//        maven {
-//            url "https://dl.bintray.com/richardjay/maven"
-//        }
+//        google()
+//        jcenter()
+        maven {
+            url "http://maven.oa.com/nexus/content/groups/androidbuild"
+        }
+        maven {
+            url "http://maven.oa.com/nexus/content/repositories/jcenter/"
+        }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$gradle_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.novoda:bintray-release:$bintrayReleaseVersion"
+        classpath 'com.bryansharp:hibeaver:1.2.7'
 //        classpath "com.tencent.qgame.cain:LifeCycle_Plugin:$lifeCyclePluginVersion"
     }
 }
 
 allprojects {
     repositories {
-        google()
-        jcenter()
-//        maven {
-//            url "http://maven.oa.com/nexus/content/groups/androidbuild"
-//        }
-//        maven {
-//            url "http://maven.oa.com/nexus/content/repositories/jcenter/"
-//        }
+//        google()
+//        jcenter()
+        maven {
+            url "http://maven.oa.com/nexus/content/groups/androidbuild"
+        }
+        maven {
+            url "http://maven.oa.com/nexus/content/repositories/jcenter/"
+        }
     }
 }
 

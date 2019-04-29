@@ -26,5 +26,4 @@ package.json
 /node_modules
 /repo/
 repo/
-/build.gradle
 plugins/

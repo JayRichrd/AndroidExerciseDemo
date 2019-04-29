@@ -15,6 +15,67 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 //apply plugin: 'com.tencent.qgame.cain.gradle'
 
+apply plugin: 'hiBeaver'
+import com.bryansharp.gradle.hibeaver.utils.Log
+import com.bryansharp.gradle.hibeaver.utils.MethodLogAdapter
+import org.objectweb.asm.*
+
+//or you can import like bellow:
+//import org.objectweb.asm.*
+hiBeaver {
+    //下面这个参数仅仅影响log输出，为本次修改命名，无实际意义，不配置也可以
+    hiBeaverModifyName = 'myHibeaverTest'
+    //设置为true可以显示帮助内容，默认为true
+    showHelp = true
+    //keepQuiet默认为false,为true时不会有字节码修改的log输出，建议为false
+    keepQuiet = false
+    //下面的参数设置为true时会输出工程编译耗时信息
+    watchTimeConsume = false
+
+    //重头戏是配置下面的参数：modifyMatchMaps
+    //基础配置结构形如： ['class':[[:],[:]],'class':[[:],[:]]], 类型是 Map<String, List<Map<String, Object>>>
+    modifyMatchMaps = [
+            //此处可以进行模糊匹配，!表示排除，!android*即表示排除掉android开头的全类名。
+            //|符号不完全表示或，而仅仅是匹配的分隔符。*表示任意长度（>0）的任意字符
+            '*Test': [
+                    //methodDesc设置为空代表对methodDesc不进行限制
+                    //方法名也可以用模糊匹配 用javap -s 命令来查看类中方法的description
+                    ['methodName': '*', 'methodDesc': null, 'adapter': {
+                        ClassVisitor cv, int access, String name, String desc, String signature, String[] exceptions ->
+                            MethodVisitor methodVisitor = cv.visitMethod(access, name, desc, signature, exceptions)
+                            MethodVisitor adapter = new MethodLogAdapter(methodVisitor) {
+                                @Override
+                                void visitMethodInsn(int opcode, String owner, String n, String d) {
+                                    println("---into visitMethodInsn, opcode = " + opcode + ", owner = " + owner + ", name = " + n + ", desc = " + d)
+                                    if (opcode == Opcodes.INVOKEVIRTUAL && owner.equals("java/lang/Thread") && n.equals("start") && d.equals("()V")) {
+                                        println("MATCHED visitMethodInsn, opcode = " + opcode + ", owner = " + owner + ", name = " + n + ", desc = " + d)
+
+//                                        super.visitMethodInsn(Opcodes.INVOKESTATIC,
+//                                                "cain/tencent/com/androidexercisedemo/utils/ThreadManagerWrapper",
+//                                                "start",
+//                                                "(Ljava/lang/Thread;)V",
+//                                                false)
+                                        super.visitMethodInsn(Opcodes.INVOKESTATIC,
+                                                "cain/tencent/com/androidexercisedemo/utils/ThreadManagerWrapper",
+                                                "start",
+                                                "(Ljava/lang/Runnable;)V",
+                                                false)
+                                    } else {
+                                        super.visitMethodInsn(opcode, owner, n, d)
+                                    }
+                                }
+
+                                @Override
+                                void visitCode() {
+                                    super.visitCode()
+                                }
+                            }
+                            return adapter
+                    }]
+            ]
+    ]
+}
+
 android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
@@ -113,6 +174,11 @@ kapt {
     generateStubs = true
 }
 
+configurations {
+    cleanedAnnotations
+    compile.exclude group: 'org.jetbrains', module: 'annotations'
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
@@ -149,6 +215,11 @@ dependencies {
     implementation "com.android.support:multidex:${rootProject.multidexVersion}"
     //fastJson
     implementation "com.alibaba:fastjson:${rootProject.fastJsonVersion}"
+
+    implementation('com.tencent.qgame:utils:1.4.3', {
+        exclude module: 'annotations'
+    })
+    implementation('com.tencent.qgame:wns:1.2.5')
 
 }
 
