@@ -6,6 +6,8 @@ import com.tencent.qgame.component.utils.thread.IThreadListener;
 import com.tencent.qgame.component.utils.thread.ThreadManager;
 import com.tencent.qgame.component.utils.thread.ThreadPriority;
 
+import java.util.concurrent.Executor;
+
 public class ThreadManagerWrapper {
     public static final String TAG = "ThreadManagerWrapper";
 
@@ -33,12 +35,7 @@ public class ThreadManagerWrapper {
     public static final String THREAD = "java.lang.Thread";
     public static final String THREAD_FIELD_TARGET = "target";
 
-    /**
-     * 使用反射的方式获取到Thread的Runnable
-     * 然后将这个Runnable添加到线程池中
-     *
-     * @param thread 待收归的线程
-     */
+
 //    public static void start(Thread thread) {
 //        try {
 //            Class clazz = Class.forName(THREAD);
@@ -46,8 +43,8 @@ public class ThreadManagerWrapper {
 //            field.setAccessible(true);
 //            Object runnableObj = field.get(thread);
 //            if (runnableObj instanceof Runnable) {
+//                Log.d(TAG, "---put thread in our own threadPool to run---");
 //                Runnable runnable = (Runnable) runnableObj;
-//                Log.i(TAG, "---thread pool start---");
 //                ThreadManager.post(runnable, ThreadPriority.NORMAL, mThreadListener, true);
 //            }
 //
@@ -64,12 +61,19 @@ public class ThreadManagerWrapper {
 //            e.printStackTrace();
 //            Log.e(TAG, "reflect Thread error: " + e.toString());
 //            thread.start();
-//        } catch (Throwable e) {
-//            Log.e(TAG, "reflect Thread error: " + e.toString());
 //        }
 //    }
+
+    public static void execute(Executor executor, Runnable runnable) {
+        ThreadManager.post(runnable, ThreadPriority.NORMAL, null, true);
+    }
+
+    /**
+     * @param thread 待收归的线程
+     */
     public static void start(Runnable thread) {
-        Log.i(TAG, "---thread pool start---");
+        Log.d(TAG, "---put thread in our own threadPool to run---");
         ThreadManager.post(thread, ThreadPriority.NORMAL, mThreadListener, true);
     }
+
 }
