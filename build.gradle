@@ -3,8 +3,8 @@ ext {
     buildToolsVersion = '28.0.3'
     minSdkVersion = 21
     targetSdkVersion = 22
-    rx_java_version = '2.2.2'
-    rx_android_version = '2.1.0'
+    rx_java_version = '2.2.8'
+    rx_android_version = '2.1.1'
     fresco_version = '1.10.0'
     android_plugin_version = '2.3.0'
     supportLibVersion = '28.0.0'
