@@ -18,6 +18,7 @@ import cain.tencent.com.androidexercisedemo.domain.Address;
 import cain.tencent.com.androidexercisedemo.domain.User;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.observables.GroupedObservable;
@@ -58,7 +59,105 @@ public class RxJavaActivity extends AppCompatActivity implements View.OnClickLis
     private void rxjavaAction() {
 //        threadSwitch();
 //        switchOpration();
-        groupAction();
+//        groupAction();
+//        firstOrLastAction();
+//        takeAction();
+//        skipAction();
+//        elementAction();
+        distinctAction();
+    }
+
+    private void distinctAction() {
+        Observable.just(1, 2, 1, 2, 3, 4, 5, 5, 6).distinct().subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Log.i(TAG, "---distinct---integer: " + integer);
+            }
+        });
+
+        Observable.just(1, 2, 1, 2, 3, 4, 5, 5, 6).distinctUntilChanged().subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Log.i(TAG, "---distinctUntilChanged---integer: " + integer);
+            }
+        });
+    }
+
+    private void elementAction() {
+        Observable.just(1, 2, 3, 4).elementAtOrError(6).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Log.i(TAG, "integer:" + integer);
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                Log.i(TAG, "throwable: " + throwable.getMessage());
+            }
+        });
+
+        Observable.just(1, 2, 3, 4).ignoreElements().subscribe(new Action() {
+            @Override
+            public void run() throws Exception {
+                Log.i(TAG, "---run---");
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                Log.i(TAG, "throwable: " + throwable.getMessage());
+            }
+        });
+    }
+
+    private void skipAction() {
+        Observable.just(1, 2, 3, 4).skip(6).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Log.i(TAG, "integer:" + integer);
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                Log.i(TAG, "throwable: " + throwable.getMessage());
+            }
+        }, new Action() {
+            @Override
+            public void run() throws Exception {
+                Log.i(TAG, "---run---");
+            }
+        });
+    }
+
+    private void takeAction() {
+        Observable.just(1, 2, 3, 4).take(6).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Log.i(TAG, "integer:" + integer);
+            }
+        });
+
+        Observable.just(1, 2, 3, 4).takeLast(2).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Log.i(TAG, "integer:" + integer);
+            }
+        });
+    }
+
+    private void firstOrLastAction() {
+        Observable.range(1, 5).firstOrError().subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Log.i(TAG, "integer: " + integer);
+            }
+        });
+
+        Observable.range(5, 10).lastOrError().subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Log.i(TAG, "integer: " + integer);
+            }
+        });
     }
 
     private void groupAction() {
@@ -70,7 +169,6 @@ public class RxJavaActivity extends AppCompatActivity implements View.OnClickLis
         }).subscribe(new Consumer<GroupedObservable<String, Integer>>() {
             @Override
             public void accept(final GroupedObservable<String, Integer> stringIntegerGroupedObservable) throws Exception {
-//                Log.i(TAG, "group name: " + stringIntegerGroupedObservable.getKey());
                 if (stringIntegerGroupedObservable.getKey().equals("奇数")) {
                     stringIntegerGroupedObservable.subscribe(new Consumer<Integer>() {
                         @Override
@@ -81,6 +179,28 @@ public class RxJavaActivity extends AppCompatActivity implements View.OnClickLis
                 }
             }
         });
+
+        Observable.range(1, 9).buffer(3, 1).subscribe(new Consumer<List<Integer>>() {
+            @Override
+            public void accept(List<Integer> integers) throws Exception {
+                Log.i(TAG, "integers: " + integers.toString());
+            }
+        });
+
+        Observable.range(1, 9).window(2).subscribe(new Consumer<Observable<Integer>>() {
+            @Override
+            public void accept(Observable<Integer> integerObservable) throws Exception {
+                Log.i(TAG, "---window---");
+                integerObservable.subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        Log.i(TAG, "integer: " + integer);
+                    }
+                });
+            }
+        });
+
+
     }
 
     private void switchOpration() {
