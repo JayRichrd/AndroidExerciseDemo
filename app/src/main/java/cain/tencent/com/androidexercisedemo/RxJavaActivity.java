@@ -15,9 +15,11 @@ import cain.tencent.com.androidexercisedemo.databinding.ActivityTipsBinding;
 import cain.tencent.com.androidexercisedemo.domain.Address;
 import cain.tencent.com.androidexercisedemo.domain.User;
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.Scheduler;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.observables.GroupedObservable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.schedulers.TestScheduler;
 
@@ -44,7 +46,30 @@ public class RxJavaActivity extends AppCompatActivity implements View.OnClickLis
 
     private void rxjavaAction() {
 //        threadSwitch();
-        switchOpration();
+//        switchOpration();
+        groupAction();
+    }
+
+    private void groupAction() {
+        Observable.range(1, 8).groupBy(new Function<Integer, String>() {
+            @Override
+            public String apply(Integer integer) throws Exception {
+                return (integer % 2 == 0) ? "偶数" : "奇数";
+            }
+        }).subscribe(new Consumer<GroupedObservable<String, Integer>>() {
+            @Override
+            public void accept(final GroupedObservable<String, Integer> stringIntegerGroupedObservable) throws Exception {
+//                Log.i(TAG, "group name: " + stringIntegerGroupedObservable.getKey());
+                if (stringIntegerGroupedObservable.getKey().equals("奇数")) {
+                    stringIntegerGroupedObservable.subscribe(new Consumer<Integer>() {
+                        @Override
+                        public void accept(Integer integer) throws Exception {
+                            Log.i(TAG, stringIntegerGroupedObservable.getKey() + " member: " + integer);
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void switchOpration() {
@@ -54,6 +79,33 @@ public class RxJavaActivity extends AppCompatActivity implements View.OnClickLis
         addressList.add(address1);
         addressList.add(address2);
         User user = new User("tony", addressList);
+
+        Observable.just(user).map(new Function<User, List<Address>>() {
+            @Override
+            public List<Address> apply(User user) throws Exception {
+                return user.getAddressList();
+            }
+        }).subscribe(new Consumer<List<Address>>() {
+            @Override
+            public void accept(List<Address> addresses) throws Exception {
+                for (Address address : addresses) {
+                    Log.i(TAG, "---map---address: " + address);
+                }
+            }
+        });
+
+        Observable.just(user).concatMap(new Function<User, ObservableSource<Address>>() {
+            @Override
+            public ObservableSource<Address> apply(User user) throws Exception {
+                return Observable.fromIterable(user.getAddressList());
+            }
+        }).subscribe(new Consumer<Address>() {
+            @Override
+            public void accept(Address address) throws Exception {
+                Log.i(TAG, "---flatmap---address: " + address);
+            }
+        });
+
 
     }
 
