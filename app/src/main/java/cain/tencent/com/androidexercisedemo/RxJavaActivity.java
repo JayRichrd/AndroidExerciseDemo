@@ -1,27 +1,27 @@
 package cain.tencent.com.androidexercisedemo;
 
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.view.AsyncLayoutInflater;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cain.tencent.com.androidexercisedemo.databinding.ActivityRxJavaBinding;
-import cain.tencent.com.androidexercisedemo.databinding.ActivityTipsBinding;
 import cain.tencent.com.androidexercisedemo.domain.Address;
 import cain.tencent.com.androidexercisedemo.domain.User;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
-import io.reactivex.Scheduler;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.observables.GroupedObservable;
 import io.reactivex.schedulers.Schedulers;
-import io.reactivex.schedulers.TestScheduler;
 
 public class RxJavaActivity extends AppCompatActivity implements View.OnClickListener {
     private ActivityRxJavaBinding databing;
@@ -30,9 +30,20 @@ public class RxJavaActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        databing = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_rx_java, null, false);
-        setContentView(databing.getRoot());
-        databing.btnRxjava.setOnClickListener(this);
+//        databing = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_rx_java, null, false);
+//        setContentView(databing.getRoot());
+//        databing.btnRxjava.setOnClickListener(this);
+
+        new AsyncLayoutInflater(this).inflate(R.layout.activity_rx_java, null, new AsyncLayoutInflater.OnInflateFinishedListener() {
+            @Override
+            public void onInflateFinished(@NonNull View view, int resid, @Nullable ViewGroup parent) {
+                Log.i(TAG, "current thread: " + Thread.currentThread().getName());
+                databing = DataBindingUtil.bind(view);
+                setContentView(databing.getRoot());
+                databing.btnRxjava.setOnClickListener(RxJavaActivity.this);
+            }
+        });
+
     }
 
     @Override
