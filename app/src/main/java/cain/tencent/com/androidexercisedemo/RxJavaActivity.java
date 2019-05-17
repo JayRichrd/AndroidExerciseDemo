@@ -12,11 +12,14 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import cain.tencent.com.androidexercisedemo.databinding.ActivityRxJavaBinding;
 import cain.tencent.com.androidexercisedemo.domain.Address;
 import cain.tencent.com.androidexercisedemo.domain.User;
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
@@ -64,7 +67,26 @@ public class RxJavaActivity extends AppCompatActivity implements View.OnClickLis
 //        takeAction();
 //        skipAction();
 //        elementAction();
-        distinctAction();
+//        distinctAction();
+        debounceAction();
+    }
+
+    private void debounceAction() {
+        Observable.create(new ObservableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
+                if (emitter.isDisposed()) return;
+                for (int i = 1; i <= 10; i++) {
+                    emitter.onNext(i);
+                    Thread.sleep(i * 100);
+                }
+            }
+        }).debounce(500, TimeUnit.MILLISECONDS).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Log.i(TAG, "integer: " + integer);
+            }
+        });
     }
 
     private void distinctAction() {
