@@ -23,6 +23,7 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.functions.Action;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.BiPredicate;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
@@ -76,7 +77,76 @@ public class RxJavaActivity extends AppCompatActivity implements View.OnClickLis
 //        elementAction();
 //        distinctAction();
 //        debounceAction();
-        logicalAction();
+//        logicalAction();
+        combineAction();
+    }
+
+    private void combineAction() {
+        Observable odds = Observable.just(1, 3, 5);
+        Observable evens = Observable.just(2, 4, 6, 8);
+        Observable.mergeDelayError(odds, evens).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Log.i(TAG, "---merge---integer: " + integer);
+            }
+        });
+
+        Observable.zip(odds, evens, new BiFunction<Integer, Integer, Integer>() {
+            @Override
+            public Integer apply(Integer o, Integer o2) throws Exception {
+                return o + o2;
+            }
+        }).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Log.i(TAG, "---zip---integer: " + integer);
+            }
+        });
+
+        Observable.combineLatest(odds, evens, new BiFunction<Integer, Integer, Integer>() {
+            @Override
+            public Integer apply(Integer o, Integer o2) throws Exception {
+                Log.i(TAG, "---combineLatest---o:" + o + ", o2: " + o2);
+                return o + o2;
+            }
+        }).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Log.i(TAG, "---combineLatest---integer: " + integer);
+            }
+        });
+
+        Observable<Integer> o1 = Observable.just(1, 2, 3);
+        Observable<Integer> o2 = Observable.just(4, 5, 6);
+        o1.join(o2, new Function<Integer, ObservableSource<String>>() {
+            @Override
+            public ObservableSource<String> apply(Integer integer) throws Exception {
+                return Observable.just(String.valueOf(integer)).delay(100, TimeUnit.MILLISECONDS);
+            }
+        }, new Function<Integer, ObservableSource<String>>() {
+            @Override
+            public ObservableSource<String> apply(Integer integer) throws Exception {
+                return Observable.just(String.valueOf(integer)).delay(200, TimeUnit.MILLISECONDS);
+            }
+        }, new BiFunction<Integer, Integer, String>() {
+            @Override
+            public String apply(Integer integer, Integer integer2) throws Exception {
+                return integer + ":" + integer2;
+            }
+        }).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                Log.i(TAG, "---join---s: " + s);
+            }
+        });
+
+        Observable.just("Hello Java", "Hello C++").startWith("Hello Rxjava").subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                Log.i(TAG, "---startWith---s: " + s);
+            }
+        });
+
     }
 
     private void logicalAction() {
