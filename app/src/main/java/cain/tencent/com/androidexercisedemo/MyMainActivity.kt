@@ -22,6 +22,7 @@ import cain.tencent.com.androidexercisedemo.ffmpeg.FFMpegActivity
 import com.alibaba.fastjson.JSON
 import java.net.URLDecoder
 import cain.tencent.com.androidexercisedemo.utils.startActivity
+import hugo.weaving.DebugLog
 import java.io.File
 
 @SuppressLint("ActivityRouterAnnotationDetector")
@@ -43,7 +44,9 @@ class MyMainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    @DebugLog
     override fun onCreate(savedInstanceState: Bundle?) {
+        val start = System.currentTimeMillis()
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_main, null, false)
         initView()
@@ -56,6 +59,7 @@ class MyMainActivity : AppCompatActivity(), View.OnClickListener {
         if (prePlayInfo.containsKey("live_room_style")) {
             Log.d(TAG, "live_room_style: ${prePlayInfo.getIntValue("live_room_style")}")
         }
+        Log.i(TAG, "spend time = ${System.currentTimeMillis() - start}")
     }
 
     private fun initView() {

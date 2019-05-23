@@ -16,6 +16,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.jakewharton.hugo'
 //apply plugin: 'com.tencent.qgame.cain.gradle'
 def threadOptimize = false
 if (threadOptimize) {
@@ -155,6 +156,10 @@ android {
         abortOnError false
     }
 
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-annotations.pro'
+    }
+
 }
 
 android.applicationVariants.all { variant ->
@@ -179,6 +184,7 @@ kapt {
 configurations {
     cleanedAnnotations
     compile.exclude group: 'org.jetbrains', module: 'annotations'
+//    compile.exclude group: 'org.aspectj', module: 'annotation'
 }
 
 dependencies {
@@ -220,8 +226,16 @@ dependencies {
 
     implementation('com.tencent.qgame:utils:1.4.3', {
         exclude module: 'annotations'
+        exclude group: "com.lucio.aspectjt"
     })
-    implementation('com.tencent.qgame:wns:1.2.5')
+    implementation('com.tencent.qgame:wns:1.2.5',{
+        exclude group: "com.lucio.aspectjt"
+    })
+
+    implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.2'
+    // If you want to bind to Android-specific lifecycles
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.2'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
 
 }
 

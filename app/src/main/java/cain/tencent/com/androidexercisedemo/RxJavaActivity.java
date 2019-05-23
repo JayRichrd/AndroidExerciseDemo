@@ -6,36 +6,60 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.AsyncLayoutInflater;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+
+import com.trello.rxlifecycle2.android.ActivityEvent;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import cain.tencent.com.androidexercisedemo.databinding.ActivityRxJavaBinding;
 import cain.tencent.com.androidexercisedemo.domain.Address;
 import cain.tencent.com.androidexercisedemo.domain.User;
+import cain.tencent.com.androidexercisedemo.utils.RxJavaUtils;
+import cain.tencent.com.androidexercisedemo.utils.RxTrace;
+import hugo.weaving.DebugLog;
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.Observer;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.BiPredicate;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
+import io.reactivex.observables.ConnectableObservable;
 import io.reactivex.observables.GroupedObservable;
 import io.reactivex.schedulers.Schedulers;
 
 @SuppressLint("CheckResult")
-public class RxJavaActivity extends AppCompatActivity implements View.OnClickListener {
+public class RxJavaActivity extends RxAppCompatActivity implements View.OnClickListener {
     private ActivityRxJavaBinding databing;
     public static final String TAG = "RxJavaActivity";
 
+    @DebugLog
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,9 +102,125 @@ public class RxJavaActivity extends AppCompatActivity implements View.OnClickLis
 //        distinctAction();
 //        debounceAction();
 //        logicalAction();
-        combineAction();
+//        combineAction();
+//        backPressAction();
+//        transformerAction();
+        parallelStream();
+
     }
 
+    @SuppressWarnings("AlibabaThreadPoolCreation")
+    private void parallelStream() {
+//        List<Integer> result = new ArrayList<>();
+//        for (int i = 0; i < 100; i++) {
+//            result.add(i);
+//        }
+//        result.parallelStream().map(new java.util.function.Function<Integer, String>() {
+//            @Override
+//            public String apply(Integer integer) {
+//                return integer.toString();
+//            }
+//        }).forEach(new java.util.function.Consumer<String>() {
+//            @Override
+//            public void accept(String s) {
+//                Log.i(TAG, "s = " + s + ", current thread: " + Thread.currentThread().getName());
+//            }
+//        });
+
+        int threadNum = Runtime.getRuntime().availableProcessors() + 1;
+        Log.i(TAG, "threadNum = " + threadNum);
+        final ExecutorService executorService = Executors.newFixedThreadPool(threadNum);
+        final Scheduler scheduler = Schedulers.from(executorService);
+        Observable.range(1, 100).flatMap(new Function<Integer, ObservableSource<String>>() {
+            @Override
+            public ObservableSource<String> apply(Integer integer) throws Exception {
+                return Observable.just(integer).subscribeOn(scheduler).map(new Function<Integer, String>() {
+                    @Override
+                    public String apply(Integer integer) throws Exception {
+                        Log.i(TAG, "---parallel---current thread: " + Thread.currentThread().getName());
+                        return integer.toString();
+                    }
+                });
+            }
+        }).doFinally(new Action() {
+            @Override
+            public void run() throws Exception {
+                executorService.shutdown();
+            }
+        }).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                Log.i(TAG, "---parallel---s: " + s);
+            }
+        });
+    }
+
+    private void transformerAction() {
+        Observable.just(123, 456).compose(transformer()).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                Log.i(TAG, "---transformer---s: " + s);
+            }
+        });
+
+        Observable.just(789).compose(RxJavaUtils.<Integer>observableToMain()).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Log.i(TAG, "---compose---integer: " + integer);
+            }
+        });
+    }
+
+    private ObservableTransformer<Integer, String> transformer() {
+        return new ObservableTransformer<Integer, String>() {
+            @Override
+            public ObservableSource<String> apply(Observable<Integer> upstream) {
+                return upstream.map(new Function<Integer, String>() {
+                    @Override
+                    public String apply(Integer integer) throws Exception {
+                        return String.valueOf(integer);
+                    }
+                });
+            }
+        };
+    }
+
+    private void backPressAction() {
+        Flowable.create(new FlowableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(FlowableEmitter<Integer> emitter) throws Exception {
+                for (int i = 0; i < 128; i++) {
+                    emitter.onNext(i);
+                }
+            }
+        }, BackpressureStrategy.ERROR).
+                subscribeOn(Schedulers.newThread()).
+                observeOn(AndroidSchedulers.mainThread()).
+                compose(this.<Integer>bindToLifecycle()).
+                subscribe(new Subscriber<Integer>() {
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        s.request(2);
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        Log.i(TAG, "--backPress---integer: " + integer);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        Log.e(TAG, "--backPress---throwable: " + t.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.i(TAG, "--backPress---onComplete---");
+                    }
+                });
+    }
+
+    @DebugLog
     private void combineAction() {
         Observable odds = Observable.just(1, 3, 5);
         Observable evens = Observable.just(2, 4, 6, 8);
@@ -147,6 +287,96 @@ public class RxJavaActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
 
+//        Log.i(TAG, "--------------------------------------------------------------------------------------------");
+        final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        Observable<Long> obs = Observable.interval(1, TimeUnit.SECONDS).take(6);
+//        ConnectableObservable<Long> connectableObservable = obs.publish();
+//        connectableObservable.subscribe(new Observer<Long>() {
+//            @Override
+//            public void onSubscribe(Disposable d) {
+//
+//            }
+//
+//            @Override
+//            public void onNext(Long aLong) {
+//                Log.i(TAG, "subscriber: onNext: " + aLong + " ->time: " + sdf.format(new Date()));
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                Log.e(TAG, "subscriber error: " + e.getMessage());
+//            }
+//
+//            @Override
+//            public void onComplete() {
+//                Log.i(TAG, "---onComplete---");
+//            }
+//        });
+//        connectableObservable.delaySubscription(3, TimeUnit.SECONDS).subscribe(new Consumer<Long>() {
+//            @Override
+//            public void accept(Long aLong) throws Exception {
+//                Log.i(TAG, "---connectObservable---aLong: " + aLong + " time:" + sdf.format(new Date()));
+//            }
+//        }, new Consumer<Throwable>() {
+//            @Override
+//            public void accept(Throwable throwable) throws Exception {
+//                Log.i(TAG, "---connectObservable---throwable: " + throwable.getMessage());
+//            }
+//        }, new Action() {
+//            @Override
+//            public void run() throws Exception {
+//                Log.i(TAG, "---run---: ");
+//            }
+//        });
+//        connectableObservable.connect();
+
+        Log.i(TAG, "--------------------------------------------------------------------------------------------");
+        ConnectableObservable<Long> replayConnectableObservable = obs.replay(2);
+        replayConnectableObservable.connect();
+        replayConnectableObservable.compose(RxTrace.<Long>logObservable(TAG, RxTrace.LOG_COMPLETE | RxTrace.LOG_NEXT_DATA)).subscribe(new Observer<Long>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Long aLong) {
+                Log.i(TAG, "---replay---subscriber1---onNext---aLong: " + aLong + ", time: " + sdf.format(new Date()));
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+                Log.i(TAG, "---replay---subscriber1---onComplete---");
+            }
+        });
+        replayConnectableObservable.delaySubscription(3, TimeUnit.SECONDS).subscribe(new Observer<Long>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Long aLong) {
+                Log.i(TAG, "---replay---subscriber2---onNext---aLong: " + aLong + ", time: " + sdf.format(new Date()));
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+                Log.i(TAG, "---replay---subscriber1---onComplete---");
+            }
+        });
+
+
     }
 
     private void logicalAction() {
@@ -205,11 +435,12 @@ public class RxJavaActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-        Observable.intervalRange(1, 9, 0, 1, TimeUnit.MICROSECONDS).skipUntil(Observable.timer(4,
-                TimeUnit.MICROSECONDS)).subscribe(new Consumer<Long>() {
+        Observable.intervalRange(1, 9, 0, 1, TimeUnit.MICROSECONDS).
+                skipUntil(Observable.timer(4, TimeUnit.MICROSECONDS)).
+                compose(bindUntilEvent(ActivityEvent.DESTROY)).subscribe(new Consumer<Object>() {
             @Override
-            public void accept(Long aLong) throws Exception {
-                Log.i(TAG, "---skipUntil---aLong: " + aLong);
+            public void accept(Object o) throws Exception {
+                Log.i(TAG, "---skipUntil---o: " + o);
             }
         });
 

@@ -1,7 +1,7 @@
 ext {
     compileSdkVersion = 28
     buildToolsVersion = '28.0.3'
-    minSdkVersion = 21
+    minSdkVersion = 24
     targetSdkVersion = 22
     rx_java_version = '2.2.8'
     rx_android_version = '2.1.1'
@@ -38,6 +38,9 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.novoda:bintray-release:$bintrayReleaseVersion"
         classpath 'com.bryansharp:hibeaver:1.2.7'
+        classpath("com.jakewharton.hugo:hugo-plugin:1.2.1") {
+            exclude(group: 'com.jakewharton.hugo', module: 'hugo-annotations')
+        }
 //        classpath "com.tencent.qgame.cain:LifeCycle_Plugin:$lifeCyclePluginVersion"
     }
 }
