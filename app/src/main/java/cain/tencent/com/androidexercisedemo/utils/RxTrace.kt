@@ -9,20 +9,13 @@ import java.util.function.Function
  * @date 2019-05-23
  */
 object RxTrace {
-    @JvmField
-    val LOG_NEXT_DATA = 1
-    @JvmField
-    val LOG_NEXT_EVENT = 2
-    @JvmField
-    val LOG_ERROR = 4
-    @JvmField
-    val LOG_COMPLETE = 8
-    @JvmField
-    val LOG_SUBSCRIBE = 16
-    @JvmField
-    val LOG_TERMINATE = 32
-    @JvmField
-    val LOG_DISPOSE = 64
+    const val LOG_NEXT_DATA = 1
+    const val LOG_NEXT_EVENT = 2
+    const val LOG_ERROR = 4
+    const val LOG_COMPLETE = 8
+    const val LOG_SUBSCRIBE = 16
+    const val LOG_TERMINATE = 32
+    const val LOG_DISPOSE = 64
 
     @JvmStatic
     fun <T> logObservable(tag: String, bitMask: Int): ObservableTransformer<T, T> {
