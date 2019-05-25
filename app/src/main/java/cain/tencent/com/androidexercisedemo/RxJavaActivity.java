@@ -1,7 +1,12 @@
 package cain.tencent.com.androidexercisedemo;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,8 +14,13 @@ import android.support.v4.view.AsyncLayoutInflater;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
-
+import com.jakewharton.rxbinding2.view.RxView;
+import com.jakewharton.rxbinding2.widget.RxTextView;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
@@ -21,8 +31,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import cain.tencent.com.androidexercisedemo.databinding.ActivityRxJavaBinding;
@@ -30,6 +38,7 @@ import cain.tencent.com.androidexercisedemo.domain.Address;
 import cain.tencent.com.androidexercisedemo.domain.User;
 import cain.tencent.com.androidexercisedemo.utils.RxJavaUtils;
 import cain.tencent.com.androidexercisedemo.utils.RxTrace;
+import cain.tencent.com.androidexercisedemo.utils.RxUtils;
 import hugo.weaving.DebugLog;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
@@ -41,7 +50,6 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
@@ -52,12 +60,16 @@ import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.observables.ConnectableObservable;
 import io.reactivex.observables.GroupedObservable;
+import io.reactivex.parallel.ParallelFlowable;
 import io.reactivex.schedulers.Schedulers;
 
 @SuppressLint("CheckResult")
 public class RxJavaActivity extends RxAppCompatActivity implements View.OnClickListener {
     private ActivityRxJavaBinding databing;
     public static final String TAG = "RxJavaActivity";
+    private ValidationResult mValidationResult = new ValidationResult();
+    public static final int MAX_COUNT_TIME = 60;
+    RxPermissions rxPermissions;
 
     @DebugLog
     @Override
@@ -69,17 +81,78 @@ public class RxJavaActivity extends RxAppCompatActivity implements View.OnClickL
 //        databing.btnRxjava.setOnClickListener(this);
 
         new AsyncLayoutInflater(this).inflate(R.layout.activity_rx_java, null,
-                new AsyncLayoutInflater.OnInflateFinishedListener() {
-                    @Override
-                    public void onInflateFinished(@NonNull View view, int resid,
-                                                  @Nullable ViewGroup parent) {
-                        Log.i(TAG, "current thread: " + Thread.currentThread().getName());
-                        databing = DataBindingUtil.bind(view);
-                        setContentView(databing.getRoot());
-                        databing.btnRxjava.setOnClickListener(RxJavaActivity.this);
-                    }
+                (view, resid, parent) -> {
+                    Log.i(TAG, "current thread: " + Thread.currentThread().getName());
+                    databing = DataBindingUtil.bind(view);
+                    setContentView(databing.getRoot());
+//                        databing.btnRxjava.setOnClickListener(RxJavaActivity.this);
+                    initView(databing);
                 });
 
+        rxPermissions = new RxPermissions(this);
+    }
+
+    private void initView(ViewDataBinding binding) {
+        RxView.clicks(databing.btnRxjava).subscribe(object -> rxjavaAction());
+
+
+        RxView.clicks(databing.btnDuplicateTest).compose(RxUtils.<Object>preventDuplicateClicksTransformer(3000)).subscribe(object -> Log.i(TAG, "---duplicate test---"));
+
+        Observable.combineLatest(RxTextView.textChanges(databing.etPhoneNum), RxTextView.textChanges(databing.etPassword), (phoneNum, passWord) -> {
+            Log.i(TAG, "---login test---phoneNum = " + phoneNum + ", passWord = " + passWord);
+            if (phoneNum.length() == 0 || passWord.length() == 0) {
+                mValidationResult.setResult(false);
+                mValidationResult.setMessage("手机或者电话号码不能为空");
+            } else if (phoneNum.length() != 11) {
+                mValidationResult.setResult(false);
+                mValidationResult.setMessage("请输入正确的手机号码");
+            } else if (!passWord.toString().equals("12345")) {
+                mValidationResult.setResult(false);
+                mValidationResult.setMessage("密码错误");
+            } else {
+                mValidationResult.setResult(true);
+            }
+            return mValidationResult;
+        }).subscribe(validationResult -> {
+
+        });
+
+        RxView.clicks(databing.btnLogIn).subscribe(object -> {
+            String logMessage;
+            if (mValidationResult.getResult()) {
+                logMessage = "登录成功";
+            } else {
+                logMessage = mValidationResult.getMessage();
+            }
+            Toast.makeText(RxJavaActivity.this, logMessage, Toast.LENGTH_SHORT).show();
+        });
+
+        RxView.clicks(databing.btn4AuthCode).
+                throttleFirst(MAX_COUNT_TIME, TimeUnit.SECONDS).
+                flatMap((Function<Object, ObservableSource<Long>>) object -> {
+                    databing.btn4AuthCode.setEnabled(false);
+                    databing.btn4AuthCode.setText("剩余" + MAX_COUNT_TIME + "秒");
+                    return Observable.interval(1, TimeUnit.SECONDS, Schedulers.io()).take(MAX_COUNT_TIME);
+                }).map(count ->
+                MAX_COUNT_TIME - (count + 1)
+        ).observeOn(AndroidSchedulers.mainThread()).subscribe(remainTime -> {
+            if (remainTime <= 0L) {
+                databing.btn4AuthCode.setEnabled(true);
+                databing.btn4AuthCode.setText("获取验证码");
+            } else {
+                databing.btn4AuthCode.setText("剩余" + remainTime + "秒");
+            }
+        });
+
+        RxView.clicks(databing.btnRequestPermission).compose(rxPermissions.ensure(Manifest.permission.CAMERA)).subscribe(granted -> {
+            if (granted) {
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:" + "10086"));
+                startActivity(intent);
+            } else {
+                Log.i(TAG, "---permission---授权失败");
+            }
+        });
     }
 
     @Override
@@ -127,30 +200,44 @@ public class RxJavaActivity extends RxAppCompatActivity implements View.OnClickL
 //            }
 //        });
 
-        int threadNum = Runtime.getRuntime().availableProcessors() + 1;
-        Log.i(TAG, "threadNum = " + threadNum);
-        final ExecutorService executorService = Executors.newFixedThreadPool(threadNum);
-        final Scheduler scheduler = Schedulers.from(executorService);
-        Observable.range(1, 100).flatMap(new Function<Integer, ObservableSource<String>>() {
+//        int threadNum = Runtime.getRuntime().availableProcessors() + 1;
+//        Log.i(TAG, "threadNum = " + threadNum);
+//        final ExecutorService executorService = Executors.newFixedThreadPool(threadNum);
+//        final Scheduler scheduler = Schedulers.from(executorService);
+//        Observable.range(1, 100).flatMap(new Function<Integer, ObservableSource<String>>() {
+//            @Override
+//            public ObservableSource<String> apply(Integer integer) throws Exception {
+//                return Observable.just(integer).subscribeOn(scheduler).map(new Function<Integer, String>() {
+//                    @Override
+//                    public String apply(Integer integer) throws Exception {
+//                        Log.i(TAG, "---parallel---current thread: " + Thread.currentThread().getName());
+//                        return integer.toString();
+//                    }
+//                });
+//            }
+//        }).doFinally(new Action() {
+//            @Override
+//            public void run() throws Exception {
+//                executorService.shutdown();
+//            }
+//        }).subscribe(new Consumer<String>() {
+//            @Override
+//            public void accept(String s) throws Exception {
+//                Log.i(TAG, "---parallel---s: " + s);
+//            }
+//        });
+
+        ParallelFlowable parallelFlowable = Flowable.range(1, 100).parallel();
+        parallelFlowable.runOn(Schedulers.io()).map(new Function<Integer, String>() {
             @Override
-            public ObservableSource<String> apply(Integer integer) throws Exception {
-                return Observable.just(integer).subscribeOn(scheduler).map(new Function<Integer, String>() {
-                    @Override
-                    public String apply(Integer integer) throws Exception {
-                        Log.i(TAG, "---parallel---current thread: " + Thread.currentThread().getName());
-                        return integer.toString();
-                    }
-                });
+            public String apply(Integer integer) throws Exception {
+                Log.i(TAG, "---send action, current thread: " + Thread.currentThread().getName());
+                return integer.toString();
             }
-        }).doFinally(new Action() {
+        }).sequential().subscribe(new Consumer<String>() {
             @Override
-            public void run() throws Exception {
-                executorService.shutdown();
-            }
-        }).subscribe(new Consumer<String>() {
-            @Override
-            public void accept(String s) throws Exception {
-                Log.i(TAG, "---parallel---s: " + s);
+            public void accept(String string) throws Exception {
+                Log.i(TAG, "---parallelFlowable---string: " + string + ", receive action, current thread: " + Thread.currentThread().getName());
             }
         });
     }

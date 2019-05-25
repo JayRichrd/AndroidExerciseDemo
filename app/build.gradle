@@ -160,6 +160,11 @@ android {
         exclude 'META-INF/proguard/androidx-annotations.pro'
     }
 
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
 }
 
 android.applicationVariants.all { variant ->
@@ -236,6 +241,10 @@ dependencies {
     // If you want to bind to Android-specific lifecycles
     implementation 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.2'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
+
+    implementation 'com.jakewharton.rxbinding2:rxbinding:2.2.0'
+
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
 
 }
 
