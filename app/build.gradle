@@ -18,7 +18,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.jakewharton.hugo'
 //apply plugin: 'com.tencent.qgame.cain.gradle'
-def threadOptimize = false
+def threadOptimize = true
 if (threadOptimize) {
     apply plugin: 'hiBeaver'
 //or you can import like bellow:

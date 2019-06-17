@@ -31,11 +31,9 @@ public class MyLifecycleClassVisitor extends ClassVisitor implements Opcodes {
         if (TARGET_CLASS_NAME.equals(this.mClassName)) {
             if (METHOD_ON_CREATE.equals(name)) {//匹配onCreate()方法
                 //处理onCreate
-                System.out.println("MyLifecycleClassVisitor#visitMethod()#access: " + access + ", name: " + name + ", desc: " + desc + ", signature: " + signature + ", exceptions: " + exceptions + ", change method " + name);
                 return new MyLifecycleOnCreateMethodVisitor(mv);
             } else if (METHOD_ON_DESTROY.equals(name)) {//匹配onDestroy()方法
                 //处理onDestroy
-                System.out.println("MyLifecycleClassVisitor#visitMethod()#access: " + access + ", name: " + name + ", desc: " + desc + ", signature: " + signature + ", exceptions: " + exceptions + ", change method " + name);
                 return new MyLifecycleOnDestroyMethodVisitor(mv);
             }
         }

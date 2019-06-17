@@ -17,6 +17,7 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         Test().test()
+//        Test().threadPoolTest()
         val builder = DraweeConfig.newBuilder()
         builder.setDrawDebugOverlay(true)
 //        builder.setPipelineDraweeControllerFactory(PipelineDraweeControllerFactory())

@@ -3,11 +3,13 @@ package cain.tencent.com.androidexercisedemo
 import android.annotation.SuppressLint
 import android.content.ComponentCallbacks2
 import android.content.Intent
+import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.os.PersistableBundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -191,5 +193,17 @@ class MyMainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onDestroy() {
         super.onDestroy()
         Log.i(TAG, "onDestroy")
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
+        super.onSaveInstanceState(outState, outPersistentState)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
     }
 }
