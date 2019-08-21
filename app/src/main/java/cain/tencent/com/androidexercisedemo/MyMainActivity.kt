@@ -6,10 +6,10 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.os.PersistableBundle
+import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,11 +21,12 @@ import cain.tencent.com.androidexercisedemo.bitmap.*
 import cain.tencent.com.androidexercisedemo.cache.CacheActivity
 import cain.tencent.com.androidexercisedemo.databinding.ActivityMainBinding
 import cain.tencent.com.androidexercisedemo.ffmpeg.FFMpegActivity
-import com.alibaba.fastjson.JSON
-import java.net.URLDecoder
 import cain.tencent.com.androidexercisedemo.utils.startActivity
+import com.alibaba.fastjson.JSON
 import hugo.weaving.DebugLog
+import org.json.JSONObject
 import java.io.File
+import java.net.URLDecoder
 
 @SuppressLint("ActivityRouterAnnotationDetector")
 class MyMainActivity : AppCompatActivity(), View.OnClickListener {
@@ -53,7 +54,8 @@ class MyMainActivity : AppCompatActivity(), View.OnClickListener {
         binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_main, null, false)
         initView()
         setContentView(binding.root)
-        val urlStr = "%7b%22hv%5fdirection%22%3a0%2c%22provider%22%3a0%2c%22player%5ftype%22%3a0%2c%22play%5furl%22%3a%22%22%2c%22h265%5fplay%5furl%22%3a%22%22%2c%22channel%5fid%22%3a%22%22%2c%22source%22%3a%22%22%2c%22h265%5fdecode%5ftype%22%3a0%2c%22use%5fp2p%22%3afalse%2c%22live%5froom%5fstyle%22%3a0%7d"
+//        val urlStr = "%7b%22hv%5fdirection%22%3a0%2c%22provider%22%3a0%2c%22player%5ftype%22%3a0%2c%22play%5furl%22%3a%22%22%2c%22h265%5fplay%5furl%22%3a%22%22%2c%22channel%5fid%22%3a%22%22%2c%22source%22%3a%22%22%2c%22h265%5fdecode%5ftype%22%3a0%2c%22use%5fp2p%22%3afalse%2c%22live%5froom%5fstyle%22%3a0%7d"
+        val urlStr = "qgameapi://video/room?aid=1724379&jump=%7B%22room_style%22%3A100%7D"
         val urlTarget = URLDecoder.decode(urlStr, "utf-8")
         Log.d(TAG, "urlTarget: $urlTarget")
         val prePlayInfo = JSON.parseObject(urlTarget.trim())
@@ -62,6 +64,16 @@ class MyMainActivity : AppCompatActivity(), View.OnClickListener {
             Log.d(TAG, "live_room_style: ${prePlayInfo.getIntValue("live_room_style")}")
         }
         Log.i(TAG, "spend time = ${System.currentTimeMillis() - start}")
+
+        val mapDemo = HashMap<String,String>()
+        mapDemo.put("md5","1234")
+        mapDemo.put("hashcode","45678")
+        val result = JSONObject()
+        val data = JSONObject(mapDemo)
+        result.put("params","jiangyu")
+        result.put("ext",data)
+        Log.i(TAG,"result: ${result.toString()}")
+
     }
 
     private fun initView() {
